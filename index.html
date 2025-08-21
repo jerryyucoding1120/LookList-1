@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LookList – Luxury Beauty Marketplace</title>
+  <meta name="description" content="Discover, book, and pay for luxury beauty services with trusted local merchants." />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --background: linear-gradient(135deg, #170708 0%, #1a0509 80%);
+      --silver: #c0c0c0;
+      --red: #ff3864;
+      --red-gradient: linear-gradient(90deg, #ff3864, #c9184a);
+      --card: #231942;
+      --box-bg: linear-gradient(135deg, #1b0a0f 0%, #2c0c15 100%);
+      --text: #fff;
+      --font-header: 'Poppins', sans-serif;
+      --font-body: 'Inter', Arial, sans-serif;
+      --violet: #ff3864;
+      --accent: #ff3864;
+      --footer-bg: #140307;
+      --box-border: #220a13; /* Darker border outline */
+    }
+    html, body {
+      background: var(--background);
+      color: var(--text);
+      font-family: var(--font-body);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-size: 18px;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4 {
+      font-family: var(--font-header);
+      font-weight: bold;
+      margin: 0 0 0.5em 0;
+      letter-spacing: 1px;
+    }
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: transparent;
+    }
+    .silver-accent {
+      color: var(--silver);
+      font-weight: bold;
+      text-shadow: 0 2px 8px rgba(192,192,192,0.15);
+    }
+    .red-accent {
+      color: var(--red);
+      font-weight: bold;
+    }
+    .hero-box {
+      background: var(--box-bg);
+      border-radius: 24px;
+      box-shadow: 0 4px 32px rgba(255,56,100,0.17), 0 1.5px 8px rgba(0,0,0,0.09);
+      padding: 2.5rem 2rem;
+      max-width: 900px;
+      margin: 2rem 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 2px solid var(--box-border); /* Made border darker */
+    }
+    .hero-title {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+    }
+    .hero-desc {
+      font-size: 1.3rem;
+      font-weight: 500;
+      max-width: 560px;
+      margin-bottom: 2.5rem;
+      line-height: 1.5;
+    }
+    .platform-desc {
+      background: transparent;
+      font-size: 1.12rem;
+      color: #ffd6e0;
+      margin-bottom: 1.5rem;
+      max-width: 660px;
+      text-align: center;
+      line-height: 1.6;
+    }
+    .cta-btn {
+      background: var(--red-gradient);
+      color: var(--text);
+      border: none;
+      padding: 1rem 2.2rem;
+      border-radius: 36px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 1rem;
+      box-shadow: 0 4px 24px rgba(255,56,100,0.16);
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .cta-btn:hover, .cta-btn:focus {
+      background: linear-gradient(90deg, #c9184a, #ff3864);
+      box-shadow: 0 8px 32px rgba(255,56,100,0.28);
+      outline: 2px solid var(--red);
+    }
+    footer {
+      width: 100%;
+      background: var(--footer-bg);
+      color: #fff;
+      text-align: center;
+      padding: 2rem 1rem 1rem 1rem;
+      margin-top: 3rem;
+      letter-spacing: 0.5px;
+      font-size: 1.05rem;
+      border-top: 1px solid #2c0912;
+      box-shadow: 0 -2px 16px rgba(255,56,100,0.08);
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .footer-btn {
+      background: none;
+      border: none;
+      color: #ff3864;
+      font-family: var(--font-body);
+      font-size: 1.07rem;
+      font-weight: 500;
+      padding: 0.2em 0.7em;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.18s, color 0.18s;
+      text-decoration: underline;
+    }
+    .footer-btn:hover, .footer-btn:focus {
+      background: #ff3864;
+      color: #fff;
+      outline: none;
+    }
+    @media (max-width: 600px) {
+      .hero-title { font-size: 2.1rem; }
+      .hero-desc { font-size: 1.05rem; }
+      .cta-btn { font-size: 1rem; padding: 0.8rem 1.5rem; }
+      .hero-box { padding: 1.1rem; }
+      .footer-nav { gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="hero">
+    <div class="hero-box">
+      <h1 class="hero-title"><span class="silver-accent">LookList</span></h1>
+      <h2 class="hero-desc">
+        Discover, book, and pay for <span class="red-accent">premium beauty services</span> near you.
+      </h2>
+      <div class="platform-desc">
+        LookList is a premium web and mobile marketplace that connects customers with local beauty merchants. It prioritizes security, luxury design, and a seamless user experience, featuring escrow-protected transactions to build trust. The platform aims to simplify the discovery and booking of beauty services while ensuring reliable income and visibility for merchants.
+      </div>
+      <button class="cta-btn">Search Near Me</button>
+    </div>
+  </main>
+  <footer>
+    <nav class="footer-nav">
+      <a href="terms.html"><button class="footer-btn">Terms of Use</button></a>
+      <a href="privacy.html"><button class="footer-btn">Privacy Policy</button></a>
+      <a href="cookies.html"><button class="footer-btn">Cookie Policy</button></a>
+    </nav>
+    <div>© 2025 LookList. All rights reserved.</div>
+  </footer>
+</body>
+</html>
