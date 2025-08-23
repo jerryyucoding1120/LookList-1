@@ -147,7 +147,6 @@
       position: relative;
     }
     .hero-title { font-size: 3rem; margin-bottom: 1.5rem; color: var(--silver); }
-    .hero-title .white-accent { color: var(--white); }
     .hero-desc {
       font-size: 1.3rem;
       font-weight: 500;
@@ -160,11 +159,24 @@
       background: transparent;
       font-size: 1.12rem;
       color: var(--silver);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
       max-width: 660px;
       text-align: center;
       line-height: 1.6;
     }
+    /* New rating image style */
+    .hero-rating {
+      display: block;
+      margin-top: 0.75rem;
+      width: 320px;
+      max-width: 90%;
+      height: auto;
+      border-radius: 14px;
+      border: 1px solid var(--box-border);
+      background: var(--button-bg);
+      box-shadow: 0 2px 14px rgba(44,46,48,0.15);
+    }
+
     .cta-btn {
       background: var(--button-bg);
       color: var(--silver);
@@ -197,7 +209,6 @@
       margin: 2rem 0 0 0;
     }
 
-    /* Info box with text + image side-by-side */
     .info-box {
       background: var(--service-bg);
       border-radius: 22px;
@@ -220,6 +231,7 @@
       text-align: left;
       flex: 1 1 0;
     }
+    .info-text .cta-btn { margin-top: 0.8rem; }
     .info-media {
       flex: 0 0 auto;
       width: 380px;
@@ -241,11 +253,9 @@
       .header-title { font-size: 1.3rem; }
       .hero-title { font-size: 2.1rem; }
       .hero-desc { font-size: 1.05rem; }
-      .cta-btn { font-size: 1rem; padding: 0.8rem 1.5rem; }
       .hero-box { padding: 1.1rem; }
       .footer-nav { gap: 1rem; }
 
-      /* Stack content in info boxes on mobile */
       .info-box { flex-direction: column; text-align: center; }
       .info-text { text-align: center; }
       .info-media { width: 100%; max-width: 380px; }
@@ -254,37 +264,21 @@
       footer { padding-bottom: calc(2rem + 64px + env(safe-area-inset-bottom)); }
 
       .mobile-bottom-nav {
-        position: fixed;
-        left: 0; right: 0; bottom: 0;
-        height: 64px;
+        position: fixed; left: 0; right: 0; bottom: 0; height: 64px;
         padding: 8px 8px calc(8px + env(safe-area-inset-bottom)) 8px;
-        background: var(--footer-bg);
-        border-top: 1px solid var(--box-border);
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        z-index: 1000;
+        background: var(--footer-bg); border-top: 1px solid var(--box-border);
+        display: flex; justify-content: space-around; align-items: center; z-index: 1000;
       }
       .mobile-bottom-nav .nav-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.25rem;
-        text-decoration: none;
-        color: var(--silver);
-        font-size: 0.72rem;
-        padding: 0.25rem 0.5rem;
-        min-width: 64px;
+        display: flex; flex-direction: column; align-items: center;
+        gap: 0.25rem; text-decoration: none; color: var(--silver);
+        font-size: 0.72rem; padding: 0.25rem 0.5rem; min-width: 64px;
       }
       .mobile-bottom-nav .nav-item:focus,
       .mobile-bottom-nav .nav-item:hover { color: var(--white); }
       .mobile-bottom-nav .nav-icon {
-        width: 42px;
-        height: 42px;
-        object-fit: contain;
-        border-radius: 6px;
-        border: 1px solid var(--box-border);
-        background: var(--button-bg);
+        width: 42px; height: 42px; object-fit: contain; border-radius: 6px;
+        border: 1px solid var(--box-border); background: var(--button-bg);
       }
     }
     footer {
@@ -361,14 +355,23 @@
       <div class="platform-desc">
         LookList is a premium web and mobile marketplace that connects customers with local beauty merchants. It prioritizes security, luxury design, and a seamless user experience, featuring escrow-protected transactions to build trust. The platform aims to simplify the discovery and booking of beauty services while ensuring reliable income and visibility for merchants.
       </div>
-      <a class="cta-btn" href="services.html">Start Now</a>
+      <!-- Rating image inserted below the platform description -->
+      <img
+        class="hero-rating"
+        src="assets/rating.png"
+        alt="Customer ratings and reviews"
+        loading="lazy"
+      />
+      <!-- Start Now button moved below the UK coverage description -->
     </div>
 
     <div class="service-row" id="services">
-      <!-- Existing UK coverage info box -->
+      <!-- UK coverage info box with Start Now button under the description -->
       <div class="info-box">
         <div class="info-text">
           available all over the UK, find professionals independent salons in you area or schedule mobile professional services
+          <br />
+          <a class="cta-btn" href="services.html">Start Now</a>
         </div>
         <img
           class="info-media"
@@ -381,7 +384,9 @@
       <!-- New info box with same style as uk-coverage -->
       <div class="info-box" style="margin-top: 1rem;">
         <div class="info-text">
-          Seeking reliable independent professionals in the fields of hair styling, nail technology, makeup artistry, and henna application who can provide high-quality services at competitive rates
+          Seeking to grow your business and join our reliable independent professionals in the fields of hair styling, nail technology, makeup artistry, and henna application who can provide high-quality services at competitive rates?
+          <br />
+          <a class="cta-btn" href="profile.html">Sign Up</a>
         </div>
         <img
           class="info-media"
