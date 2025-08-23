@@ -177,8 +177,8 @@
       margin-top: 1rem;
       box-shadow: 0 4px 24px rgba(44,46,48,0.16);
       transition: background 0.2s, box-shadow 0.2s, color 0.2s, border-color 0.2s;
-      text-decoration: none;          /* ensure no underline for anchor */
-      display: inline-block;          /* anchor sizing like a button */
+      text-decoration: none;
+      display: inline-block;
     }
     .cta-btn:hover, .cta-btn:focus {
       background: var(--button-hover-bg);
@@ -186,7 +186,7 @@
       outline: 2px solid var(--button-hover-border);
       color: var(--button-hover-text);
       border-color: var(--button-hover-border);
-      text-decoration: none;          /* keep it clean on hover/focus */
+      text-decoration: none;
     }
 
     .service-row {
@@ -197,6 +197,7 @@
       margin: 2rem 0 0 0;
     }
 
+    /* Info box with text + image side-by-side */
     .info-box {
       background: var(--service-bg);
       border-radius: 22px;
@@ -244,6 +245,7 @@
       .hero-box { padding: 1.1rem; }
       .footer-nav { gap: 1rem; }
 
+      /* Stack content in info boxes on mobile */
       .info-box { flex-direction: column; text-align: center; }
       .info-text { text-align: center; }
       .info-media { width: 100%; max-width: 380px; }
@@ -363,6 +365,7 @@
     </div>
 
     <div class="service-row" id="services">
+      <!-- Existing UK coverage info box -->
       <div class="info-box">
         <div class="info-text">
           available all over the UK, find professionals independent salons in you area or schedule mobile professional services
@@ -371,6 +374,19 @@
           class="info-media"
           src="assets/uk-coverage.png"
           alt="Coverage across the UK: professionals, independent salons, and mobile services"
+          loading="lazy"
+        />
+      </div>
+
+      <!-- New info box with same style as uk-coverage -->
+      <div class="info-box" style="margin-top: 1rem;">
+        <div class="info-text">
+          Seeking reliable independent professionals in the fields of hair styling, nail technology, makeup artistry, and henna application who can provide high-quality services at competitive rates
+        </div>
+        <img
+          class="info-media"
+          src="assets/ad.png"
+          alt="Promotional image: independent professionals for hair, nails, makeup, and henna"
           loading="lazy"
         />
       </div>
@@ -388,6 +404,7 @@
     <div>© 2025 LookList. All rights reserved.</div>
   </footer>
 
+  <!-- Mobile Bottom Navigation -->
   <nav class="mobile-bottom-nav" aria-label="Primary">
     <a class="nav-item" href="index.html" aria-current="page">
       <img class="nav-icon" src="assets/home.png" alt="" aria-hidden="true" />
