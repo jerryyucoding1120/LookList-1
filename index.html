@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>LookList – Luxury Beauty Marketplace</title>
   <meta name="description" content="Discover, book, and pay for luxury beauty services with trusted local merchants." />
-  <link rel="icon" href="assets/logo.png" type="image/png" sizes="any" />
-  <link rel="apple-touch-icon" href="assets/logo.png" />
-  <link rel="shortcut icon" href="assets/logo.png" />
+  <link rel="icon" href="assets/logo1.png" type="image/png" sizes="any" />
+  <link rel="apple-touch-icon" href="assets/logo1.png" />
+  <link rel="shortcut icon" href="assets/logo1.png" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -186,7 +186,6 @@
       border-color: var(--button-hover-border);
     }
 
-    /* Container under hero section */
     .service-row {
       width: 100%;
       display: flex;
@@ -195,7 +194,6 @@
       margin: 2rem 0 0 0;
     }
 
-    /* Info box with text + image side-by-side */
     .info-box {
       background: var(--service-bg);
       border-radius: 22px;
@@ -229,7 +227,6 @@
       object-fit: contain;
     }
 
-    /* Mobile bottom navigation (only shows on small screens) */
     .mobile-bottom-nav { display: none; }
 
     @media (max-width: 600px) {
@@ -244,7 +241,6 @@
       .hero-box { padding: 1.1rem; }
       .footer-nav { gap: 1rem; }
 
-      /* Stack content and reserve space for bottom nav */
       .info-box { flex-direction: column; text-align: center; }
       .info-text { text-align: center; }
       .info-media { width: 100%; max-width: 380px; }
@@ -325,10 +321,16 @@
       outline: none;
       text-decoration: none;
     }
-    a { color: var(--silver); text-decoration: underline; transition: color 0.2s; }
-    a:hover, a:focus { color: var(--accent); text-decoration: underline; }
+    a {
+      color: var(--silver);
+      text-decoration: underline;
+      transition: color 0.2s;
+    }
+    a:hover, a:focus {
+      color: var(--accent);
+      text-decoration: underline;
+    }
 
-    /* Desktop-only header links */
     .header-bar .nav-desktop { display: none; }
     @media (min-width: 1024px) {
       .header-bar .nav-desktop { display: inline-block; }
@@ -337,7 +339,7 @@
 </head>
 <body>
   <header class="header-bar">
-    <a href="index.html"><img src="assets/logo.png" alt="LookList Logo" class="logo-img" /></a>
+    <a href="index.html"><img src="assets/logo1.png" alt="LookList Logo" class="logo-img" /></a>
     <span class="header-title">LookList</span>
     <a href="index.html" class="home-link">Home</a>
     <a href="services.html" class="home-link nav-desktop">Services</a>
@@ -346,7 +348,7 @@
   </header>
   <main class="hero">
     <div class="hero-box">
-      <img src="assets/logo.png" alt="LookList Logo" class="main-logo-img" />
+      <img src="assets/logo1.png" alt="LookList Logo" class="main-logo-img" />
       <h1 class="hero-title"><span class="white-accent">LookList</span></h1>
       <h2 class="hero-desc">
         Discover, book, and pay for <span class="white-accent">premium beauty services</span> near you.
@@ -357,7 +359,6 @@
       <button class="cta-btn">Start Now</button>
     </div>
 
-    <!-- Informational box with text and a 380px image on the right -->
     <div class="service-row" id="services">
       <div class="info-box">
         <div class="info-text">
@@ -384,7 +385,6 @@
     <div>© 2025 LookList. All rights reserved.</div>
   </footer>
 
-  <!-- Mobile Bottom Navigation -->
   <nav class="mobile-bottom-nav" aria-label="Primary">
     <a class="nav-item" href="index.html" aria-current="page">
       <img class="nav-icon" src="assets/home.png" alt="" aria-hidden="true" />
