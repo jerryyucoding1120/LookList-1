@@ -177,6 +177,8 @@
       margin-top: 1rem;
       box-shadow: 0 4px 24px rgba(44,46,48,0.16);
       transition: background 0.2s, box-shadow 0.2s, color 0.2s, border-color 0.2s;
+      text-decoration: none;          /* ensure no underline for anchor */
+      display: inline-block;          /* anchor sizing like a button */
     }
     .cta-btn:hover, .cta-btn:focus {
       background: var(--button-hover-bg);
@@ -184,6 +186,7 @@
       outline: 2px solid var(--button-hover-border);
       color: var(--button-hover-text);
       border-color: var(--button-hover-border);
+      text-decoration: none;          /* keep it clean on hover/focus */
     }
 
     .service-row {
@@ -356,7 +359,7 @@
       <div class="platform-desc">
         LookList is a premium web and mobile marketplace that connects customers with local beauty merchants. It prioritizes security, luxury design, and a seamless user experience, featuring escrow-protected transactions to build trust. The platform aims to simplify the discovery and booking of beauty services while ensuring reliable income and visibility for merchants.
       </div>
-      <button class="cta-btn">Start Now</button>
+      <a class="cta-btn" href="services.html">Start Now</a>
     </div>
 
     <div class="service-row" id="services">
