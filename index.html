@@ -108,10 +108,7 @@
       padding: 0.32em 1.25em;
       margin: 0;
       cursor: pointer;
-      transition: 
-        color 0.18s,
-        border-color 0.18s,
-        background 0.18s;
+      transition: color 0.18s, border-color 0.18s, background 0.18s;
       box-shadow: none;
       outline: none;
       display: inline-block;
@@ -122,6 +119,13 @@
       border-color: var(--button-hover-border);
       text-decoration: none;
     }
+    /* Toggle Home -> Sign in label on mobile */
+    .label-mobile { display: none; }
+    @media (max-width: 600px) {
+      .label-desktop { display: none; }
+      .label-mobile { display: inline; }
+    }
+
     .hero {
       min-height: 70vh;
       display: flex;
@@ -164,7 +168,6 @@
       text-align: center;
       line-height: 1.6;
     }
-    /* New rating image style */
     .hero-rating {
       display: block;
       margin-top: 0.75rem;
@@ -340,7 +343,10 @@
   <header class="header-bar">
     <a href="index.html"><img src="assets/logo1.png" alt="LookList Logo" class="logo-img" /></a>
     <span class="header-title">LookList</span>
-    <a href="index.html" class="home-link">Home</a>
+    <a href="index.html" class="home-link">
+      <span class="label-desktop">Home</span>
+      <span class="label-mobile">Sign in</span>
+    </a>
     <a href="services.html" class="home-link nav-desktop">Services</a>
     <a href="messages.html" class="home-link nav-desktop">Messages</a>
     <a href="profile.html" class="home-link nav-desktop">Profile</a>
@@ -355,18 +361,15 @@
       <div class="platform-desc">
         LookList is a premium web and mobile marketplace that connects customers with local beauty merchants. It prioritizes security, luxury design, and a seamless user experience, featuring escrow-protected transactions to build trust. The platform aims to simplify the discovery and booking of beauty services while ensuring reliable income and visibility for merchants.
       </div>
-      <!-- Rating image inserted below the platform description -->
       <img
         class="hero-rating"
         src="assets/rating.png"
         alt="Customer ratings and reviews"
         loading="lazy"
       />
-      <!-- Start Now button moved below the UK coverage description -->
     </div>
 
     <div class="service-row" id="services">
-      <!-- UK coverage info box with Start Now button under the description -->
       <div class="info-box">
         <div class="info-text">
           available all over the UK, find professionals independent salons in you area or schedule mobile professional services
@@ -381,7 +384,6 @@
         />
       </div>
 
-      <!-- New info box with same style as uk-coverage -->
       <div class="info-box" style="margin-top: 1rem;">
         <div class="info-text">
           Seeking to grow your business and join our reliable independent professionals in the fields of hair styling, nail technology, makeup artistry, and henna application who can provide high-quality services at competitive rates?
@@ -409,7 +411,6 @@
     <div>© 2025 LookList. All rights reserved.</div>
   </footer>
 
-  <!-- Mobile Bottom Navigation -->
   <nav class="mobile-bottom-nav" aria-label="Primary">
     <a class="nav-item" href="index.html" aria-current="page">
       <img class="nav-icon" src="assets/home.png" alt="" aria-hidden="true" />

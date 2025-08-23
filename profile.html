@@ -46,6 +46,13 @@
     .header-bar .nav-desktop { display: none; }
     @media (min-width: 1024px) { .header-bar .nav-desktop { display: inline-block; } }
 
+    /* Toggle Home -> Sign in label on mobile */
+    .label-mobile { display: none; }
+    @media (max-width: 600px) {
+      .label-desktop { display: none; }
+      .label-mobile { display: inline; }
+    }
+
     .content { max-width: 900px; margin: 2rem auto 3rem; padding: 2rem 1.25rem; background: var(--box-bg); border-radius: 20px; border: 2px solid var(--box-border); box-shadow: 0 4px 32px rgba(44,46,48,0.15); }
     .profile-header { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: center; margin-bottom: 1rem; }
     .avatar-lg { width: 72px; height: 72px; border-radius: 16px; background: var(--grey); border: 2px solid var(--box-border); object-fit: cover; }
@@ -93,7 +100,10 @@
   <header class="header-bar">
     <a href="index.html"><img src="assets/logo1.png" alt="LookList Logo" class="logo-img" /></a>
     <span class="header-title">LookList</span>
-    <a href="index.html" class="home-link">Home</a>
+    <a href="index.html" class="home-link">
+      <span class="label-desktop">Home</span>
+      <span class="label-mobile">Sign in</span>
+    </a>
     <a href="services.html" class="home-link nav-desktop">Services</a>
     <a href="messages.html" class="home-link nav-desktop">Messages</a>
     <a href="profile.html" class="home-link nav-desktop" aria-current="page">Profile</a>

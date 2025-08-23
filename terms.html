@@ -43,13 +43,15 @@
     .header-title { font-family: var(--font-header); font-size: 1.9rem; font-weight: bold; color: var(--silver); margin-right: auto; letter-spacing: 1.5px; text-shadow: 0 2px 8px rgba(207,216,220,0.18); display: flex; align-items: center; gap: 0.4rem; }
     .home-link { color: var(--silver); font-family: var(--font-header); font-weight: bold; font-size: 1.18rem; text-decoration: none; background: var(--button-bg); border: 2px solid transparent; border-radius: 24px; padding: 0.32em 1.25em; margin: 0; cursor: pointer; transition: background 0.18s, color 0.18s, border-color 0.18s; box-shadow: none; outline: none; display: inline-block; }
     .home-link:hover, .home-link:focus { color: var(--button-hover-text); background: var(--button-hover-bg); border-color: var(--button-hover-border); text-decoration: none; }
-
-    footer { width: 100%; background: var(--footer-bg); color: var(--silver); text-align: center; padding: 2rem 1rem 1rem 1rem; margin-top: 3rem; letter-spacing: 0.5px; font-size: 1.05rem; border-top: 1px solid var(--box-border); box-shadow: 0 -2px 16px rgba(44,46,48,0.08); }
-    .footer-nav { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem; flex-wrap: wrap; }
-    .footer-btn { background: none; border: 2px solid transparent; color: var(--silver); font-family: var(--font-body); font-size: 1.07rem; font-weight: 500; padding: 0.2em 0.7em; cursor: pointer; border-radius: 6px; transition: background 0.18s, color 0.18s, border-color 0.18s; text-decoration: underline; }
-    .footer-btn:hover, .footer-btn:focus { background: var(--button-hover-bg); color: var(--button-hover-text); border-color: var(--button-hover-border); outline: none; text-decoration: none; }
     a { color: var(--silver); text-decoration: underline; transition: color 0.2s; }
     a:hover, a:focus { color: var(--accent); text-decoration: underline; }
+
+    /* Toggle Home -> Sign in label on mobile */
+    .label-mobile { display: none; }
+    @media (max-width: 600px) {
+      .label-desktop { display: none; }
+      .label-mobile { display: inline; }
+    }
 
     .header-bar .nav-desktop { display: none; }
     @media (min-width: 1024px) { .header-bar .nav-desktop { display: inline-block; } }
@@ -64,7 +66,6 @@
       .content { padding: 1.1rem; }
       .footer-nav { gap: 1rem; }
 
-      /* Reserve space for fixed bottom nav and iOS safe area */
       body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
       footer { padding-bottom: calc(2rem + 64px + env(safe-area-inset-bottom)); }
 
@@ -85,13 +86,22 @@
         border: 1px solid var(--box-border); background: var(--button-bg);
       }
     }
+
+    /* Footer styles requested */
+    footer { width: 100%; background: var(--footer-bg); color: var(--silver); text-align: center; padding: 2rem 1rem 1rem 1rem; margin-top: 3rem; letter-spacing: 0.5px; font-size: 1.05rem; border-top: 1px solid var(--box-border); box-shadow: 0 -2px 16px rgba(44,46,48,0.08); }
+    .footer-nav { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .footer-btn { background: none; border: 2px solid transparent; color: var(--silver); font-family: var(--font-body); font-size: 1.07rem; font-weight: 500; padding: 0.2em 0.7em; cursor: pointer; border-radius: 6px; transition: background 0.18s, color 0.18s, border-color 0.18s; text-decoration: underline; }
+    .footer-btn:hover, .footer-btn:focus { background: var(--button-hover-bg); color: var(--button-hover-text); border-color: var(--button-hover-border); outline: none; text-decoration: none; }
   </style>
 </head>
 <body>
   <header class="header-bar">
     <a href="index.html"><img src="assets/logo1.png" alt="LookList Logo" class="logo-img" /></a>
     <span class="header-title">LookList</span>
-    <a href="index.html" class="home-link">Home</a>
+    <a href="index.html" class="home-link">
+      <span class="label-desktop">Home</span>
+      <span class="label-mobile">Sign in</span>
+    </a>
     <a href="services.html" class="home-link nav-desktop">Services</a>
     <a href="messages.html" class="home-link nav-desktop">Messages</a>
     <a href="profile.html" class="home-link nav-desktop">Profile</a>
@@ -153,7 +163,6 @@
     <div>© 2025 LookList. All rights reserved.</div>
   </footer>
 
-  <!-- Mobile Bottom Navigation -->
   <nav class="mobile-bottom-nav" aria-label="Primary">
     <a class="nav-item" href="index.html">
       <img class="nav-icon" src="assets/home.png" alt="" aria-hidden="true" />

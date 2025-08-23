@@ -55,8 +55,14 @@
     footer { width: 100%; background: var(--footer-bg); color: var(--silver); text-align: center; padding: 2rem 1rem 1rem 1rem; margin-top: auto; letter-spacing: 0.5px; font-size: 1.05rem; border-top: 1px solid var(--box-border); box-shadow: 0 -2px 16px rgba(44,46,48,0.08); }
     .footer-nav { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem; flex-wrap: wrap; }
     .footer-btn { background: none; border: 2px solid transparent; color: var(--silver); font-family: var(--font-body); font-size: 1.07rem; font-weight: 500; padding: 0.2em 0.7em; cursor: pointer; border-radius: 6px; transition: background 0.18s, color 0.18s, border-color 0.18s; text-decoration: underline; }
-
     .footer-btn:hover, .footer-btn:focus { background: var(--button-hover-bg); color: var(--button-hover-text); border-color: var(--button-hover-border); outline: none; text-decoration: none; }
+
+    /* Toggle Home -> Sign in label on mobile */
+    .label-mobile { display: none; }
+    @media (max-width: 600px) {
+      .label-desktop { display: none; }
+      .label-mobile { display: inline; }
+    }
 
     @media (max-width: 600px) {
       .header-bar { padding: 1rem 0.5rem 1rem 0.5rem; gap: 0.7rem; }
@@ -65,7 +71,6 @@
       .container { padding: 1.1rem; }
       .footer-nav { gap: 1rem; }
 
-      /* Reserve space for fixed bottom nav and iOS safe area */
       body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
       footer { padding-bottom: calc(2rem + 64px + env(safe-area-inset-bottom)); }
 
@@ -90,7 +95,6 @@
     .header-bar .nav-desktop { display: none; }
     @media (min-width: 1024px) { .header-bar .nav-desktop { display: inline-block; } }
 
-    /* Hidden by default on larger screens */
     .mobile-bottom-nav { display: none; }
   </style>
 </head>
@@ -98,7 +102,10 @@
   <header class="header-bar">
     <a href="index.html"><img src="assets/logo1.png" alt="LookList Logo" class="logo-img" /></a>
     <span class="header-title">LookList</span>
-    <a href="index.html" class="home-link">Home</a>
+    <a href="index.html" class="home-link">
+      <span class="label-desktop">Home</span>
+      <span class="label-mobile">Sign in</span>
+    </a>
     <a href="services.html" class="home-link nav-desktop">Services</a>
     <a href="messages.html" class="home-link nav-desktop">Messages</a>
     <a href="profile.html" class="home-link nav-desktop">Profile</a>
@@ -140,7 +147,6 @@
     <div>© 2025 LookList. All rights reserved.</div>
   </footer>
 
-  <!-- Mobile Bottom Navigation -->
   <nav class="mobile-bottom-nav" aria-label="Primary">
     <a class="nav-item" href="index.html">
       <img class="nav-icon" src="assets/home.png" alt="" aria-hidden="true" />
