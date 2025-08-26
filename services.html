@@ -51,15 +51,17 @@
     .header-title { font-family: var(--font-header); font-size: 1.9rem; font-weight: bold; color: var(--silver); margin-right: auto; letter-spacing: 1.5px; }
     .home-link { color: var(--silver); font-family: var(--font-header); font-weight: bold; font-size: 1.18rem; text-decoration: none; background: var(--button-bg); border: 2px solid transparent; border-radius: 24px; padding: 0.32em 1.25em; cursor: pointer; transition: color 0.18s, border-color 0.18s, background 0.18s; }
     .home-link:hover, .home-link:focus { color: var(--button-hover-text); background: var(--button-hover-bg); border-color: var(--button-hover-border); }
+
+    /* Show/Hide helpers for mobile */
+    .show-mobile { display: none; }
+    .hide-mobile { display: inline-block; }
+    @media (max-width: 600px) {
+      .show-mobile { display: inline-block; }
+      .hide-mobile { display: none; }
+    }
+
     .header-bar .nav-desktop { display: none; }
     @media (min-width: 1024px) { .header-bar .nav-desktop { display: inline-block; } }
-
-    /* Toggle Home -> Sign in label on mobile */
-    .label-mobile { display: none; }
-    @media (max-width: 600px) {
-      .label-desktop { display: none; }
-      .label-mobile { display: inline; }
-    }
 
     .content {
       max-width: 1020px; margin: 2rem auto 3rem; padding: 2rem 1.25rem; line-height: 1.65;
@@ -127,14 +129,15 @@
   <header class="header-bar">
     <a href="index.html"><img src="assets/logo1.png" alt="LookList Logo" class="logo-img" /></a>
     <span class="header-title">LookList</span>
-    <a href="index.html" class="home-link">
-      <span class="label-desktop">Home</span>
-      <span class="label-mobile">Sign in</span>
-    </a>
+
+    <!-- Desktop/Tablet: Home; Mobile: Sign in -->
+    <a href="index.html" class="home-link hide-mobile">Home</a>
+    <a href="signin.html" class="home-link show-mobile">Sign in</a>
+
     <a href="services.html" class="home-link nav-desktop" aria-current="page">Services</a>
     <a href="messages.html" class="home-link nav-desktop">Messages</a>
     <a href="profile.html" class="home-link nav-desktop">Profile</a>
-    <a href="profile.html" class="home-link nav-desktop">Sign in</a>
+    <a href="signin.html" class="home-link nav-desktop">Sign in</a>
   </header>
 
   <main class="content">

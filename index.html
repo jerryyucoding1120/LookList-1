@@ -119,11 +119,13 @@
       border-color: var(--button-hover-border);
       text-decoration: none;
     }
-    /* Toggle Home -> Sign in label on mobile */
-    .label-mobile { display: none; }
+
+    /* Show/Hide helpers for mobile */
+    .show-mobile { display: none; }
+    .hide-mobile { display: inline-block; }
     @media (max-width: 600px) {
-      .label-desktop { display: none; }
-      .label-mobile { display: inline; }
+      .show-mobile { display: inline-block; }
+      .hide-mobile { display: none; }
     }
 
     .hero {
@@ -343,14 +345,15 @@
   <header class="header-bar">
     <a href="index.html"><img src="assets/logo1.png" alt="LookList Logo" class="logo-img" /></a>
     <span class="header-title">LookList</span>
-    <a href="index.html" class="home-link">
-      <span class="label-desktop">Home</span>
-      <span class="label-mobile">Sign in</span>
-    </a>
+
+    <!-- Desktop/Tablet: Home; Mobile: Sign in (links to signin.html) -->
+    <a href="index.html" class="home-link hide-mobile">Home</a>
+    <a href="signin.html" class="home-link show-mobile">Sign in</a>
+
     <a href="services.html" class="home-link nav-desktop">Services</a>
     <a href="messages.html" class="home-link nav-desktop">Messages</a>
     <a href="profile.html" class="home-link nav-desktop">Profile</a>
-    <a href="profile.html" class="home-link nav-desktop">Sign in</a>
+    <a href="signin.html" class="home-link nav-desktop">Sign in</a>
   </header>
   <main class="hero">
     <div class="hero-box">
