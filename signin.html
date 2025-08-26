@@ -227,8 +227,7 @@
 
       <div class="divider" aria-hidden="true"></div>
       <p class="muted">
-        Note: This demo uses your browser's local storage as a simple database to save accounts on this device only.
-        For production, integrate a secure backend (e.g., Firebase Auth, Supabase, or your own API).
+        This page uses Supabase for authentication. Ensure your local/server origin is allowed in your Supabase project settings.
       </p>
     </section>
   </main>
@@ -262,59 +261,28 @@
     </a>
   </nav>
 
+  <!-- Supabase JS (v2) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
-    // Simple client-side "database" using localStorage for demo purposes only.
-    // DO NOT use this in production. Use a secure backend and proper auth.
+    // Supabase credentials (from your message)
+    const SUPABASE_URL = 'https://rgzdgeczrncuxufkyuxf.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJnemRnZWN6cm5jdXh1Zmt5dXhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxOTI3MTAsImV4cCI6MjA3MTc2ODcxMH0.dYt-MxnGZZqQ-pUilyMzcqSJjvlCNSvUCYpVJ6TT7dU';
 
-    const USERS_KEY = 'looklist_users';
-    const SESSION_KEY = 'looklist_session';
+    // Create two clients so "Remember me" controls storage target
+    const supabasePersistent = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: localStorage }
+    });
+    const supabaseSession = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: sessionStorage }
+    });
+    function activeClient(remember) { return remember ? supabasePersistent : supabaseSession; }
 
-    function loadUsers() {
-      try {
-        return JSON.parse(localStorage.getItem(USERS_KEY) || '{}');
-      } catch {
-        return {};
-      }
-    }
-    function saveUsers(users) {
-      localStorage.setItem(USERS_KEY, JSON.stringify(users));
-    }
-    function setSession(email, remember) {
-      const data = { email, at: Date.now() };
-      if (remember) {
-        localStorage.setItem(SESSION_KEY, JSON.stringify(data));
-      } else {
-        // sessionStorage clears on tab close
-        sessionStorage.setItem(SESSION_KEY, JSON.stringify(data));
-      }
-    }
-    function getSession() {
-      const raw = sessionStorage.getItem(SESSION_KEY) || localStorage.getItem(SESSION_KEY);
-      if (!raw) return null;
-      try { return JSON.parse(raw); } catch { return null; }
-    }
-    function clearSession() {
-      sessionStorage.removeItem(SESSION_KEY);
-      localStorage.removeItem(SESSION_KEY);
-    }
-
-    async function hashPassword(password) {
-      const enc = new TextEncoder().encode(password);
-      const buf = await crypto.subtle.digest('SHA-256', enc);
-      const arr = Array.from(new Uint8Array(buf));
-      return arr.map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-
-    function validateEmail(email) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
-
-    // Tab handling
+    // Tabs
     const tabSignin = document.getElementById('tab-signin');
     const tabSignup = document.getElementById('tab-signup');
     const panelSignin = document.getElementById('panel-signin');
     const panelSignup = document.getElementById('panel-signup');
-
     function setActiveTab(tab) {
       const isSignin = tab === 'signin';
       tabSignin.setAttribute('aria-selected', String(isSignin));
@@ -323,115 +291,96 @@
       panelSignup.hidden = isSignin;
       (isSignin ? document.getElementById('signin-email') : document.getElementById('signup-name')).focus();
     }
-
     tabSignin.addEventListener('click', () => setActiveTab('signin'));
     tabSignup.addEventListener('click', () => setActiveTab('signup'));
     document.getElementById('go-signup')?.addEventListener('click', (e) => { e.preventDefault(); setActiveTab('signup'); });
     document.getElementById('go-signin')?.addEventListener('click', (e) => { e.preventDefault(); setActiveTab('signin'); });
 
-    // Redirect if already signed in
-    document.addEventListener('DOMContentLoaded', () => {
-      const sess = getSession();
-      if (sess?.email) {
-        const users = loadUsers();
-        if (users[sess.email]) {
-          window.location.href = 'profile.html';
-          return;
-        } else {
-          clearSession();
-        }
+    // Redirect if already authenticated
+    async function redirectIfSignedIn() {
+      try {
+        const [{ data: p }, { data: s }] = await Promise.all([
+          supabasePersistent.auth.getSession(),
+          supabaseSession.auth.getSession(),
+        ]);
+        if (p?.session || s?.session) window.location.href = 'profile.html';
+      } catch (e) {
+        console.warn('Session check failed', e);
       }
+    }
+    [supabasePersistent, supabaseSession].forEach((client) => {
+      client.auth.onAuthStateChange((_event, session) => {
+        if (session) window.location.href = 'profile.html';
+      });
+    });
+    document.addEventListener('DOMContentLoaded', () => {
       setActiveTab('signin');
+      redirectIfSignedIn();
     });
 
-    // Sign In
+    // Sign In (Supabase)
     document.getElementById('signin-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-
-      const emailEl = document.getElementById('signin-email');
-      const passEl = document.getElementById('signin-password');
+      const email = document.getElementById('signin-email').value.trim().toLowerCase();
+      const password = document.getElementById('signin-password').value;
       const remember = document.getElementById('remember-me').checked;
-
-      const email = emailEl.value.trim().toLowerCase();
-      const password = passEl.value;
 
       const emailErr = document.getElementById('signin-email-error');
       const passErr = document.getElementById('signin-password-error');
       const status = document.getElementById('signin-status');
-
       emailErr.hidden = true; emailErr.textContent = '';
       passErr.hidden = true; passErr.textContent = '';
       status.textContent = '';
 
       let ok = true;
-      if (!validateEmail(email)) { emailErr.hidden = false; emailErr.textContent = 'Enter a valid email.'; ok = false; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { emailErr.hidden = false; emailErr.textContent = 'Enter a valid email.'; ok = false; }
       if (!password) { passErr.hidden = false; passErr.textContent = 'Enter your password.'; ok = false; }
       if (!ok) return;
 
-      const users = loadUsers();
-      const user = users[email];
-      if (!user) {
-        status.innerHTML = '<span class="error">No account found with that email.</span>';
-        return;
+      try {
+        const client = activeClient(remember);
+        const { error } = await client.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        status.innerHTML = '<span class="success">Signed in! Redirecting…</span>';
+        setTimeout(() => { window.location.href = 'profile.html'; }, 600);
+      } catch (err) {
+        status.innerHTML = `<span class="error">${err.message || 'Sign in failed'}</span>`;
       }
-      const hash = await hashPassword(password);
-      if (hash !== user.passwordHash) {
-        status.innerHTML = '<span class="error">Incorrect email or password.</span>';
-        return;
-      }
-      setSession(email, remember);
-      status.innerHTML = '<span class="success">Signed in! Redirecting…</span>';
-      setTimeout(() => { window.location.href = 'profile.html'; }, 600);
     });
 
-    // Sign Up
+    // Sign Up (Supabase) – stores "name" in user metadata
     document.getElementById('signup-form').addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const nameEl = document.getElementById('signup-name');
-      const emailEl = document.getElementById('signup-email');
-      const passEl = document.getElementById('signup-password');
-      const confirmEl = document.getElementById('signup-confirm');
-      const termsEl = document.getElementById('signup-terms');
+      const email = document.getElementById('signup-email').value.trim().toLowerCase();
+      const password = document.getElementById('signup-password').value;
+      const name = document.getElementById('signup-name').value.trim();
+      const confirm = document.getElementById('signup-confirm').value;
+      const terms = document.getElementById('signup-terms').checked;
 
-      const name = nameEl.value.trim();
-      const email = emailEl.value.trim().toLowerCase();
-      const password = passEl.value;
-      const confirm = confirmEl.value;
-
-      const nameErr = document.getElementById('signup-name-error');
-      const emailErr = document.getElementById('signup-email-error');
-      const passErr = document.getElementById('signup-password-error');
-      const confirmErr = document.getElementById('signup-confirm-error');
       const status = document.getElementById('signup-status');
-
-      [nameErr, emailErr, passErr, confirmErr].forEach(el => { el.hidden = true; el.textContent = ''; });
       status.textContent = '';
 
-      let ok = true;
-      if (!name || name.length < 2) { nameErr.hidden = false; nameErr.textContent = 'Enter your full name.'; ok = false; }
-      if (!validateEmail(email)) { emailErr.hidden = false; emailErr.textContent = 'Enter a valid email.'; ok = false; }
-      if (!password || password.length < 8) { passErr.hidden = false; passErr.textContent = 'Password must be at least 8 characters.'; ok = false; }
-      if (confirm !== password) { confirmErr.hidden = false; confirmErr.textContent = 'Passwords do not match.'; ok = false; }
-      if (!termsEl.checked) { status.innerHTML = '<span class="error">You must accept the Terms and Privacy Policy.</span>'; ok = false; }
-      if (!ok) return;
-
-      const users = loadUsers();
-      if (users[email]) {
-        status.innerHTML = '<span class="error">An account with that email already exists.</span>';
+      if (password !== confirm) {
+        status.innerHTML = '<span class="error">Passwords do not match.</span>';
         return;
       }
-      const passwordHash = await hashPassword(password);
-      users[email] = {
-        email,
-        name,
-        passwordHash,
-        createdAt: new Date().toISOString()
-      };
-      saveUsers(users);
-      setSession(email, true);
-      status.innerHTML = '<span class="success">Account created! Redirecting…</span>';
-      setTimeout(() => { window.location.href = 'profile.html'; }, 600);
+      if (!terms) {
+        status.innerHTML = '<span class="error">You must accept the Terms.</span>';
+        return;
+      }
+
+      try {
+        const { error } = await supabasePersistent.auth.signUp({
+          email,
+          password,
+          options: { data: { name } }
+        });
+        if (error) throw error;
+        status.innerHTML = '<span class="success">Check your email to confirm your account!</span>';
+      } catch (err) {
+        status.innerHTML = `<span class="error">${err.message || 'Sign up failed'}</span>`;
+      }
     });
   </script>
 </body>
