@@ -96,6 +96,7 @@
       align-items: center;
       gap: 0.4rem;
     }
+    .user-greeting { color: var(--accent); font-weight: 700; margin-left: 0.4rem; }
     .home-link {
       color: var(--silver);
       font-family: var(--font-header);
@@ -119,8 +120,6 @@
       border-color: var(--button-hover-border);
       text-decoration: none;
     }
-
-    /* Show/Hide helpers for mobile */
     .show-mobile { display: none; }
     .hide-mobile { display: inline-block; }
     @media (max-width: 600px) {
@@ -344,17 +343,19 @@
 <body>
   <header class="header-bar">
     <a href="index.html"><img src="assets/logo1.png" alt="LookList Logo" class="logo-img" /></a>
-    <span class="header-title">LookList</span>
+    <span class="header-title">LookList <span data-auth="user-name" class="user-greeting" hidden></span></span>
 
-    <!-- Desktop/Tablet: Home; Mobile: Sign in (links to signin.html) -->
     <a href="index.html" class="home-link hide-mobile">Home</a>
-    <a href="signin.html" class="home-link show-mobile">Sign in</a>
+    <a href="signin.html" class="home-link show-mobile" data-auth="signin">Sign in</a>
+    <a href="#" class="home-link show-mobile" data-auth="signout" hidden>Sign out</a>
 
     <a href="services.html" class="home-link nav-desktop">Services</a>
     <a href="messages.html" class="home-link nav-desktop">Messages</a>
     <a href="profile.html" class="home-link nav-desktop">Profile</a>
-    <a href="signin.html" class="home-link nav-desktop">Sign in</a>
+    <a href="signin.html" class="home-link nav-desktop" data-auth="signin">Sign in</a>
+    <a href="#" class="home-link nav-desktop" data-auth="signout" hidden>Sign out</a>
   </header>
+
   <main class="hero">
     <div class="hero-box">
       <img src="assets/logo1.png" alt="LookList Logo" class="main-logo-img" />
@@ -433,5 +434,12 @@
       <span class="nav-label">Profile</span>
     </a>
   </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth.js"></script>
+  <script>
+    // Public page: update nav if logged in
+    authInit();
+  </script>
 </body>
 </html>

@@ -35,22 +35,15 @@
     html, body { background: var(--background); color: var(--text); font-family: var(--font-body); margin: 0; padding: 0; min-height: 100vh; font-size: 18px; -webkit-font-smoothing: antialiased; }
     h1, h2, h3 { font-family: var(--font-header); font-weight: bold; color: var(--silver); margin: 0 0 0.6em 0; letter-spacing: 1px; }
 
-    .header-bar {
-      width: 100%; display: flex; align-items: center; justify-content: flex-start;
-      padding: 1.1rem 2rem 1.1rem 1rem; background: var(--dark-grey); box-sizing: border-box; gap: 1.4rem; margin-bottom: 1.2rem; border-bottom: 1.5px solid var(--box-border);
-    }
+    .header-bar { width: 100%; display: flex; align-items: center; justify-content: flex-start; padding: 1.1rem 2rem 1.1rem 1rem; background: var(--dark-grey); box-sizing: border-box; gap: 1.4rem; margin-bottom: 1.2rem; border-bottom: 1.5px solid var(--box-border); }
     .logo-img { height: 42px; border-radius: 12px; border: 2px solid var(--box-border); }
     .header-title { font-family: var(--font-header); font-size: 1.9rem; font-weight: bold; color: var(--silver); margin-right: auto; }
     .home-link { color: var(--silver); font-family: var(--font-header); font-weight: bold; font-size: 1.18rem; text-decoration: none; background: var(--button-bg); border: 2px solid transparent; border-radius: 24px; padding: 0.32em 1.25em; transition: color 0.18s, border-color 0.18s, background 0.18s; }
     .home-link:hover, .home-link:focus { color: var(--button-hover-text); background: var(--button-hover-bg); border-color: var(--button-hover-border); }
 
-    /* Show/Hide helpers for mobile */
-    .show-mobile { display: none; }
-    .hide-mobile { display: inline-block; }
-    @media (max-width: 600px) {
-      .show-mobile { display: inline-block; }
-      .hide-mobile { display: none; }
-    }
+    .user-greeting { color: var(--accent); font-weight: 700; margin-left: 0.4rem; }
+    .show-mobile { display: none; } .hide-mobile { display: inline-block; }
+    @media (max-width: 600px) { .show-mobile { display: inline-block; } .hide-mobile { display: none; } }
 
     .header-bar .nav-desktop { display: none; }
     @media (min-width: 1024px) { .header-bar .nav-desktop { display: inline-block; } }
@@ -101,31 +94,33 @@
 <body>
   <header class="header-bar">
     <a href="index.html"><img src="assets/logo1.png" alt="LookList Logo" class="logo-img" /></a>
-    <span class="header-title">LookList</span>
+    <span class="header-title">LookList <span data-auth="user-name" class="user-greeting" hidden></span></span>
 
-    <!-- Desktop/Tablet: Home; Mobile: Sign in -->
     <a href="index.html" class="home-link hide-mobile">Home</a>
-    <a href="signin.html" class="home-link show-mobile">Sign in</a>
+    <a href="signin.html" class="home-link show-mobile" data-auth="signin">Sign in</a>
+    <a href="#" class="home-link show-mobile" data-auth="signout" hidden>Sign out</a>
 
     <a href="services.html" class="home-link nav-desktop">Services</a>
     <a href="messages.html" class="home-link nav-desktop">Messages</a>
     <a href="profile.html" class="home-link nav-desktop" aria-current="page">Profile</a>
-    <a href="signin.html" class="home-link nav-desktop">Sign in</a>
+
+    <a href="signin.html" class="home-link nav-desktop" data-auth="signin">Sign in</a>
+    <a href="#" class="home-link nav-desktop" data-auth="signout" hidden>Sign out</a>
   </header>
 
   <main class="content">
     <div class="profile-header">
       <img class="avatar-lg" src="assets/profile.png" alt="" aria-hidden="true" />
       <div>
-        <p class="name">Your Name</p>
-        <p class="muted">Sign in to manage your bookings, messages, and account settings.</p>
+        <p class="name" id="profile-name">Your Name</p>
+        <p class="muted">Manage your bookings, messages, and account settings.</p>
       </div>
     </div>
 
     <div class="section">
       <h3>Account</h3>
       <p class="muted">Update your details, password, and notifications.</p>
-      <a href="signin.html" class="btn">Sign in</a>
+      <a href="#" class="btn" onclick="authSignOut(); return false;">Sign out</a>
     </div>
 
     <div class="section" style="margin-top:1rem;">
@@ -162,5 +157,18 @@
       <span class="nav-label">Profile</span>
     </a>
   </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth.js"></script>
+  <script>
+    // Protected page
+    authInit({ requireAuth: true }).then(({ user }) => {
+      if (user) {
+        const name = user.user_metadata?.name || user.email || 'Your Name';
+        const el = document.getElementById('profile-name');
+        if (el) el.textContent = name;
+      }
+    });
+  </script>
 </body>
 </html>

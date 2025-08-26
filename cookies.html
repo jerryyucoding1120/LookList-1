@@ -24,7 +24,6 @@
       --footer-bg: #101112;
       --box-border: #272b2f;
       --button-bg: #23272a;
-      --button-border: #cfd8dc;
       --button-hover-bg: transparent;
       --button-hover-border: #cfd8dc;
       --button-hover-text: #cfd8dc;
@@ -57,13 +56,9 @@
     .footer-btn { background: none; border: 2px solid transparent; color: var(--silver); font-family: var(--font-body); font-size: 1.07rem; font-weight: 500; padding: 0.2em 0.7em; cursor: pointer; border-radius: 6px; transition: background 0.18s, color 0.18s, border-color 0.18s; text-decoration: underline; }
     .footer-btn:hover, .footer-btn:focus { background: var(--button-hover-bg); color: var(--button-hover-text); border-color: var(--button-hover-border); outline: none; text-decoration: none; }
 
-    /* Show/Hide helpers for mobile */
-    .show-mobile { display: none; }
-    .hide-mobile { display: inline-block; }
-    @media (max-width: 600px) {
-      .show-mobile { display: inline-block; }
-      .hide-mobile { display: none; }
-    }
+    .user-greeting { color: var(--accent); font-weight: 700; margin-left: 0.4rem; }
+    .show-mobile { display: none; } .hide-mobile { display: inline-block; }
+    @media (max-width: 600px) { .show-mobile { display: inline-block; } .hide-mobile { display: none; } }
 
     @media (max-width: 600px) {
       .header-bar { padding: 1rem 0.5rem 1rem 0.5rem; gap: 0.7rem; }
@@ -102,16 +97,18 @@
 <body>
   <header class="header-bar">
     <a href="index.html"><img src="assets/logo1.png" alt="LookList Logo" class="logo-img" /></a>
-    <span class="header-title">LookList</span>
+    <span class="header-title">LookList <span data-auth="user-name" class="user-greeting" hidden></span></span>
 
-    <!-- Desktop/Tablet: Home; Mobile: Sign in -->
     <a href="index.html" class="home-link hide-mobile">Home</a>
-    <a href="signin.html" class="home-link show-mobile">Sign in</a>
+
+    <a href="signin.html" class="home-link show-mobile" data-auth="signin">Sign in</a>
+    <a href="#" class="home-link show-mobile" data-auth="signout" hidden>Sign out</a>
 
     <a href="services.html" class="home-link nav-desktop">Services</a>
     <a href="messages.html" class="home-link nav-desktop">Messages</a>
     <a href="profile.html" class="home-link nav-desktop">Profile</a>
-    <a href="signin.html" class="home-link nav-desktop">Sign in</a>
+    <a href="signin.html" class="home-link nav-desktop" data-auth="signin">Sign in</a>
+    <a href="#" class="home-link nav-desktop" data-auth="signout" hidden>Sign out</a>
   </header>
   <div class="container">
     <h1>Cookies Policy</h1>
@@ -168,5 +165,9 @@
       <span class="nav-label">Profile</span>
     </a>
   </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth.js"></script>
+  <script>authInit();</script>
 </body>
 </html>

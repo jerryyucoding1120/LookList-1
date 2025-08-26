@@ -25,7 +25,6 @@
       --footer-bg: #101112;
       --box-border: #252728;
       --button-bg: #23272a;
-      --button-border: #cfd8dc;
       --button-hover-bg: transparent;
       --button-hover-border: #cfd8dc;
       --button-hover-text: #cfd8dc;
@@ -35,22 +34,15 @@
     html, body { background: var(--background); color: var(--text); font-family: var(--font-body); margin: 0; padding: 0; min-height: 100vh; font-size: 18px; -webkit-font-smoothing: antialiased; }
     h1, h2 { font-family: var(--font-header); font-weight: bold; color: var(--silver); margin: 0 0 0.5em 0; letter-spacing: 1px; }
 
-    .header-bar {
-      width: 100%; display: flex; align-items: center; justify-content: flex-start;
-      padding: 1.1rem 2rem 1.1rem 1rem; background: var(--dark-grey); box-sizing: border-box; gap: 1.4rem; margin-bottom: 1.2rem; border-bottom: 1.5px solid var(--box-border);
-    }
+    .header-bar { width: 100%; display: flex; align-items: center; justify-content: flex-start; padding: 1.1rem 2rem 1.1rem 1rem; background: var(--dark-grey); box-sizing: border-box; gap: 1.4rem; margin-bottom: 1.2rem; border-bottom: 1.5px solid var(--box-border); }
     .logo-img { height: 42px; border-radius: 12px; border: 2px solid var(--box-border); }
     .header-title { font-family: var(--font-header); font-size: 1.9rem; font-weight: bold; color: var(--silver); margin-right: auto; letter-spacing: 1.5px; }
     .home-link { color: var(--silver); font-family: var(--font-header); font-weight: bold; font-size: 1.18rem; text-decoration: none; background: var(--button-bg); border: 2px solid transparent; border-radius: 24px; padding: 0.32em 1.25em; cursor: pointer; transition: color 0.18s, border-color 0.18s, background 0.18s; }
     .home-link:hover, .home-link:focus { color: var(--button-hover-text); background: var(--button-hover-bg); border-color: var(--button-hover-border); }
 
-    /* Show/Hide helpers for mobile */
-    .show-mobile { display: none; }
-    .hide-mobile { display: inline-block; }
-    @media (max-width: 600px) {
-      .show-mobile { display: inline-block; }
-      .hide-mobile { display: none; }
-    }
+    .user-greeting { color: var(--accent); font-weight: 700; margin-left: 0.4rem; }
+    .show-mobile { display: none; } .hide-mobile { display: inline-block; }
+    @media (max-width: 600px) { .show-mobile { display: inline-block; } .hide-mobile { display: none; } }
 
     .header-bar .nav-desktop { display: none; }
     @media (min-width: 1024px) { .header-bar .nav-desktop { display: inline-block; } }
@@ -100,16 +92,18 @@
 <body>
   <header class="header-bar">
     <a href="index.html"><img src="assets/logo1.png" alt="LookList Logo" class="logo-img" /></a>
-    <span class="header-title">LookList</span>
+    <span class="header-title">LookList <span data-auth="user-name" class="user-greeting" hidden></span></span>
 
-    <!-- Desktop/Tablet: Home; Mobile: Sign in -->
     <a href="index.html" class="home-link hide-mobile">Home</a>
-    <a href="signin.html" class="home-link show-mobile">Sign in</a>
+    <a href="signin.html" class="home-link show-mobile" data-auth="signin">Sign in</a>
+    <a href="#" class="home-link show-mobile" data-auth="signout" hidden>Sign out</a>
 
     <a href="services.html" class="home-link nav-desktop">Services</a>
     <a href="messages.html" class="home-link nav-desktop" aria-current="page">Messages</a>
     <a href="profile.html" class="home-link nav-desktop">Profile</a>
-    <a href="signin.html" class="home-link nav-desktop">Sign in</a>
+
+    <a href="signin.html" class="home-link nav-desktop" data-auth="signin">Sign in</a>
+    <a href="#" class="home-link nav-desktop" data-auth="signout" hidden>Sign out</a>
   </header>
 
   <main class="content">
@@ -171,5 +165,12 @@
       <span class="nav-label">Profile</span>
     </a>
   </nav>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth.js"></script>
+  <script>
+    // Protected: require login
+    authInit({ requireAuth: true });
+  </script>
 </body>
 </html>
