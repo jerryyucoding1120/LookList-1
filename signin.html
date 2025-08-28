@@ -52,7 +52,6 @@
       transition: color 0.18s, border-color 0.18s, background 0.18s;
     }
     .home-link:hover, .home-link:focus { color: var(--button-hover-text); background: var(--button-hover-bg); border-color: var(--button-hover-border); }
-    .user-greeting { color: var(--accent); font-weight: 700; margin-left: 0.4rem; }
     .show-mobile { display: none; } .hide-mobile { display: inline-block; }
 
     .header-bar .nav-desktop { display: none; }
@@ -89,9 +88,7 @@
     .divider { height: 1px; background: var(--box-border); margin: 0.25rem 0 0.75rem; border-radius: 1px; }
 
     .mobile-bottom-nav { display: none; }
-
     @media (max-width: 600px) {
-      /* Only hide header buttons (not the header itself) on mobile */
       .header-bar .home-link { display: none !important; }
       .show-mobile { display: inline-block; } .hide-mobile { display: none; }
 
@@ -127,7 +124,7 @@
 <body>
   <header class="header-bar">
     <a href="index.html"><img src="assets/logo1.png" alt="LookList Logo" class="logo-img" /></a>
-    <span class="header-title">LookList <span data-auth="user-name" class="user-greeting" hidden></span></span>
+    <span class="header-title">a LookList</span>
     <a href="index.html" class="home-link hide-mobile">Home</a>
     <a href="services.html" class="home-link nav-desktop">Services</a>
     <a href="messages.html" class="home-link nav-desktop">Messages</a>
@@ -148,7 +145,6 @@
       </div>
       <div class="divider" aria-hidden="true"></div>
 
-      <!-- Sign In Panel -->
       <section id="panel-signin" class="auth-body" role="tabpanel" aria-labelledby="tab-signin">
         <div id="signin-status" aria-live="polite"></div>
         <form id="signin-form" novalidate>
@@ -172,7 +168,6 @@
         </form>
       </section>
 
-      <!-- Sign Up Panel -->
       <section id="panel-signup" class="auth-body" role="tabpanel" aria-labelledby="tab-signup" hidden>
         <div id="signup-status" aria-live="polite"></div>
         <form id="signup-form" novalidate>
@@ -246,13 +241,15 @@
       <img class="nav-icon" src="assets/profile.png" alt="" aria-hidden="true" />
       <span class="nav-label">Profile</span>
     </a>
-    <!-- Sign in removed from mobile bottom nav -->
+    <a class="nav-item" href="signin.html" data-auth="signin" aria-current="page">
+      <img class="nav-icon" src="assets/profile.png" alt="" aria-hidden="true" />
+      <span class="nav-label">Sign in</span>
+    </a>
   </nav>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth.js"></script>
   <script>
-    // Helper: next= redirect target after auth
     function getNextUrl() {
       const p = new URLSearchParams(location.search);
       return p.get('next') || 'profile.html';
@@ -281,7 +278,6 @@
       setActiveTab('signin');
     })();
 
-    // Tabs
     const tabSignin = document.getElementById('tab-signin');
     const tabSignup = document.getElementById('tab-signup');
     const panelSignin = document.getElementById('panel-signin');
@@ -299,16 +295,12 @@
     document.getElementById('go-signup')?.addEventListener('click', (e) => { e.preventDefault(); setActiveTab('signup'); });
     document.getElementById('go-signin')?.addEventListener('click', (e) => { e.preventDefault(); setActiveTab('signin'); });
 
-    // Choose client based on "Remember me"
-    function activeClient(remember) {
-      return remember ? window.authClients.spLocal : window.authClients.spSession;
-    }
+    function activeClient(remember) { return remember ? window.authClients.spLocal : window.authClients.spSession; }
     function persistentClient() { return window.authClients.spLocal; }
 
     window.authClients.spLocal.auth.onAuthStateChange((_e, session) => { if (session) window.location.replace(getNextUrl()); });
     window.authClients.spSession.auth.onAuthStateChange((_e, session) => { if (session) window.location.replace(getNextUrl()); });
 
-    // Sign In (Supabase)
     document.getElementById('signin-form').addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -339,7 +331,6 @@
       }
     });
 
-    // Sign Up (Supabase) – stores "name" in user metadata
     document.getElementById('signup-form').addEventListener('submit', async (e) => {
       e.preventDefault();
 

@@ -96,7 +96,6 @@
       align-items: center;
       gap: 0.4rem;
     }
-    .user-greeting { color: var(--accent); font-weight: 700; margin-left: 0.4rem; }
     .home-link {
       color: var(--silver);
       font-family: var(--font-header);
@@ -125,7 +124,6 @@
     @media (max-width: 600px) {
       .show-mobile { display: inline-block; }
       .hide-mobile { display: none; }
-      /* Only hide header buttons (keep header visible) */
       .header-bar .home-link { display: none !important; }
     }
 
@@ -343,7 +341,7 @@
 <body>
   <header class="header-bar">
     <a href="index.html"><img src="assets/logo1.png" alt="LookList Logo" class="logo-img" /></a>
-    <span class="header-title">LookList <span data-auth="user-name" class="user-greeting" hidden></span></span>
+    <span class="header-title">a LookList</span>
     <a href="index.html" class="home-link hide-mobile">Home</a>
     <a href="services.html" class="home-link nav-desktop">Services</a>
     <a href="messages.html" class="home-link nav-desktop">Messages</a>
@@ -432,13 +430,15 @@
       <img class="nav-icon" src="assets/profile.png" alt="" aria-hidden="true" />
       <span class="nav-label">Profile</span>
     </a>
-    <!-- Sign in removed from mobile bottom nav -->
+    <a class="nav-item" href="signin.html" data-auth="signin">
+      <img class="nav-icon" src="assets/profile.png" alt="" aria-hidden="true" />
+      <span class="nav-label">Sign in</span>
+    </a>
   </nav>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth.js"></script>
   <script>
-    // Update "Sign in" button to "Sign Out" if logged in (desktop header)
     authInit().then(({ user }) => {
       const signInLinks = document.querySelectorAll('[data-auth="signin"]');
       if (user) {

@@ -34,10 +34,9 @@
     .home-link { color: var(--silver); font-family: var(--font-header); font-weight: bold; font-size: 1.18rem; text-decoration: none; background: var(--button-bg); border: 2px solid transparent; border-radius: 24px; padding: 0.32em 1.25em; cursor: pointer; transition: color 0.18s, border-color 0.18s, background 0.18s; }
     .home-link:hover, .home-link:focus { color: var(--button-hover-text); background: var(--button-hover-bg); border-color: var(--button-hover-border); }
     .show-mobile { display: none; } .hide-mobile { display: inline-block; }
-    @media (max-width: 600px) { 
-      .show-mobile { display: inline-block; } 
-      .hide-mobile { display: none; } 
-      /* Only hide header buttons (keep header visible) */
+    @media (max-width: 600px) {
+      .show-mobile { display: inline-block; }
+      .hide-mobile { display: none; }
       .header-bar .home-link { display: none !important; }
     }
     .header-bar .nav-desktop { display: none; }
@@ -75,7 +74,7 @@
 <body>
   <header class="header-bar">
     <a href="index.html"><img src="assets/logo1.png" alt="LookList Logo" class="logo-img" /></a>
-    <span class="header-title">LookList <span data-auth="user-name" class="user-greeting" hidden></span></span>
+    <span class="header-title">a LookList</span>
     <a href="index.html" class="home-link hide-mobile">Home</a>
     <a href="services.html" class="home-link nav-desktop">Services</a>
     <a href="messages.html" class="home-link nav-desktop">Messages</a>
@@ -149,7 +148,10 @@
       <img class="nav-icon" src="assets/profile.png" alt="" aria-hidden="true" />
       <span class="nav-label">Profile</span>
     </a>
-    <!-- Sign in removed from mobile bottom nav -->
+    <a class="nav-item" href="signin.html" data-auth="signin">
+      <img class="nav-icon" src="assets/profile.png" alt="" aria-hidden="true" />
+      <span class="nav-label">Sign in</span>
+    </a>
   </nav>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth.js"></script>
