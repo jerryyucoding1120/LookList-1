@@ -10,7 +10,59 @@
   <link rel="shortcut icon" href="assets/logo1.png" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    /* ... original styles unchanged ... */
+    :root {
+      --background: linear-gradient(135deg, #131415 0%, #09090a 100%);
+      --silver: #cfd8dc;
+      --dark-grey: #181a1b;
+      --box-bg: linear-gradient(135deg, #141516 0%, #18191a 100%);
+      --text: #e0e0e0;
+      --font-header: 'Poppins', sans-serif;
+      --font-body: 'Inter', Arial, sans-serif;
+      --accent: #cfd8dc;
+      --footer-bg: #101112;
+      --box-border: #252728;
+      --button-bg: #23272a;
+      --button-hover-bg: transparent;
+      --button-hover-border: #cfd8dc;
+      --button-hover-text: #cfd8dc;
+      --white: #fff;
+    }
+    html, body { background: var(--background); color: var(--text); font-family: var(--font-body); margin: 0; padding: 0; min-height: 100vh; font-size: 18px; }
+    .header-bar { width: 100%; display: flex; align-items: center; justify-content: flex-start; padding: 1.1rem 2rem 1.1rem 1rem; background: var(--dark-grey); box-sizing: border-box; gap: 1.4rem; margin-bottom: 1.2rem; border-bottom: 1.5px solid var(--box-border); }
+    .logo-img { height: 42px; width: auto; display: block; border-radius: 12px; border: 2px solid var(--box-border); }
+    .header-title { font-family: var(--font-header); font-size: 1.9rem; font-weight: bold; color: var(--silver); margin-right: auto; letter-spacing: 1.5px; }
+    .home-link { color: var(--silver); font-family: var(--font-header); font-weight: bold; font-size: 1.18rem; text-decoration: none; background: var(--button-bg); border: 2px solid transparent; border-radius: 24px; padding: 0.32em 1.25em; cursor: pointer; transition: color 0.18s, border-color 0.18s, background 0.18s; }
+    .home-link:hover, .home-link:focus { color: var(--button-hover-text); background: var(--button-hover-bg); border-color: var(--button-hover-border); }
+    .show-mobile { display: none; } .hide-mobile { display: inline-block; }
+    @media (max-width: 600px) { .show-mobile { display: inline-block; } .hide-mobile { display: none; } }
+    .header-bar .nav-desktop { display: none; }
+    @media (min-width: 1024px) { .header-bar .nav-desktop { display: inline-block; } }
+    main { max-width: 900px; margin: 2rem auto 3rem; padding: 2rem 1.25rem; background: var(--box-bg); border-radius: 20px; border: 2px solid var(--box-border); box-shadow: 0 4px 32px rgba(44,46,48,0.15); }
+    h1, h2, h3 { font-family: var(--font-header); color: var(--silver); }
+    h1 { font-size: 2.4rem; margin-bottom: 1.2rem; }
+    h2 { font-size: 1.5rem; margin-top: 2rem; }
+    h3 { font-size: 1.1rem; margin-top: 1.5rem; }
+    p, ul, ol { font-size: 1.1rem; line-height: 1.7; color: var(--text); }
+    .mobile-bottom-nav { display: none; }
+    @media (max-width: 600px) {
+      main { padding: 1.1rem; }
+      .footer-nav { gap: 1rem; }
+      .mobile-bottom-nav {
+        position: fixed; left: 0; right: 0; bottom: 0; height: 64px;
+        padding: 8px 8px calc(8px + env(safe-area-inset-bottom)) 8px;
+        background: var(--footer-bg); border-top: 1px solid var(--box-border);
+        display: flex; justify-content: space-around; align-items: center; z-index: 1000;
+      }
+      .mobile-bottom-nav .nav-item {
+        display: flex; flex-direction: column; align-items: center; gap: 0.25rem; text-decoration: none; color: var(--silver); font-size: 0.72rem; padding: 0.25rem 0.5rem; min-width: 64px;
+      }
+      .mobile-bottom-nav .nav-item:hover, .mobile-bottom-nav .nav-item:focus { color: var(--white); }
+      .mobile-bottom-nav .nav-icon { width: 42px; height: 42px; object-fit: contain; border-radius: 6px; border: 1px solid var(--box-border); background: var(--button-bg); }
+    }
+    footer { width: 100%; background: var(--footer-bg); color: var(--silver); text-align: center; padding: 2rem 1rem 1rem 1rem; margin-top: 3rem; letter-spacing: 0.5px; font-size: 1.05rem; border-top: 1px solid var(--box-border); box-shadow: 0 -2px 16px rgba(44,46,48,0.08); }
+    .footer-nav { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .footer-btn { background: none; border: 2px solid transparent; color: var(--silver); font-family: var(--font-body); font-size: 1.07rem; font-weight: 500; padding: 0.2em 0.7em; cursor: pointer; border-radius: 6px; transition: background 0.18s, color 0.18s, border-color 0.18s; text-decoration: underline; }
+    .footer-btn:hover, .footer-btn:focus { background: var(--button-hover-bg); color: var(--button-hover-text); border-color: var(--button-hover-border); outline: none; text-decoration: none; }
   </style>
 </head>
 <body>
@@ -27,13 +79,44 @@
     <a href="profile.html" class="home-link show-mobile">Profile</a>
     <a href="signin.html" class="home-link show-mobile" data-auth="signin">Sign in</a>
   </header>
-
-  <main class="content">
+  <main>
     <h1>Privacy Policy</h1>
     <p>LookList is committed to protecting your privacy. This Privacy Policy describes how we collect, use, disclose, and safeguard your information when you use our website and app.</p>
-    <!-- ... rest of your privacy content ... -->
+    <h2>1. Information we collect</h2>
+    <ul>
+      <li><strong>Personal Information:</strong> Name, email address, phone number, and payment details when you register or book services.</li>
+      <li><strong>Usage Information:</strong> Pages visited, actions taken, device and browser information.</li>
+      <li><strong>Cookies:</strong> We use cookies to improve user experience and analyze site usage. See our <a href="cookies.html">Cookie Policy</a>.</li>
+    </ul>
+    <h2>2. How we use your information</h2>
+    <ul>
+      <li>To provide and improve our services.</li>
+      <li>To process payments and bookings.</li>
+      <li>To communicate with you about your account, bookings, and offers.</li>
+      <li>To analyze usage and improve platform features.</li>
+      <li>To comply with legal requirements.</li>
+    </ul>
+    <h2>3. Sharing your information</h2>
+    <ul>
+      <li>With service providers (payment processors, analytics partners) for business purposes.</li>
+      <li>With merchants to fulfill bookings.</li>
+      <li>When required by law.</li>
+    </ul>
+    <h2>4. Security</h2>
+    <p>We use industry-standard security measures to protect your data. However, no method of transmission or storage is 100% secure.</p>
+    <h2>5. Your choices</h2>
+    <ul>
+      <li>You may update your account information at any time.</li>
+      <li>You may opt out of marketing emails using the unsubscribe link.</li>
+      <li>You may request deletion of your account by contacting support.</li>
+    </ul>
+    <h2>6. Children's privacy</h2>
+    <p>LookList is not intended for children under 16. We do not knowingly collect information from children under 16.</p>
+    <h2>7. Changes to this policy</h2>
+    <p>We may update this Privacy Policy. Updates will be posted on this page and are effective immediately.</p>
+    <h2>8. Contact</h2>
+    <p>If you have questions about this Privacy Policy, please contact us at support@looklist.co.uk.</p>
   </main>
-
   <footer>
     <nav class="footer-nav">
       <a href="terms.html"><button class="footer-btn">Terms of Use</button></a>
@@ -42,7 +125,6 @@
     </nav>
     <div>© 2025 LookList. All rights reserved.</div>
   </footer>
-
   <nav class="mobile-bottom-nav" aria-label="Primary">
     <a class="nav-item" href="index.html">
       <img class="nav-icon" src="assets/home.png" alt="" aria-hidden="true" />
@@ -65,7 +147,6 @@
       <span class="nav-label">Sign in</span>
     </a>
   </nav>
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth.js"></script>
   <script>
