@@ -40,7 +40,12 @@
     .home-link:hover, .home-link:focus { color: var(--button-hover-text); background: var(--button-hover-bg); border-color: var(--button-hover-border); }
     .user-greeting { color: var(--accent); font-weight: 700; margin-left: 0.4rem; }
     .show-mobile { display: none; } .hide-mobile { display: inline-block; }
-    @media (max-width: 600px) { .show-mobile { display: inline-block; } .hide-mobile { display: none; } }
+    @media (max-width: 600px) {
+      .show-mobile { display: inline-block; }
+      .hide-mobile { display: none; }
+      /* Hide header on mobile */
+      .header-bar { display: none !important; }
+    }
     .header-bar .nav-desktop { display: none; }
     @media (min-width: 1024px) { .header-bar .nav-desktop { display: inline-block; } }
     .content { max-width: 900px; margin: 2rem auto 3rem; padding: 2rem 1.25rem; line-height: 1.65; background: var(--box-bg); border-radius: 20px; border: 2px solid var(--box-border); box-shadow: 0 4px 32px rgba(44,46,48,0.15); }
@@ -53,9 +58,6 @@
     .btn:hover, .btn:focus { background: var(--button-hover-bg); color: var(--button-hover-text); border-color: var(--button-hover-border); box-shadow: 0 6px 24px rgba(44,46,48,0.22); outline: none; }
     .mobile-bottom-nav { display: none; }
     @media (max-width: 600px) {
-      .header-bar { padding: 1rem 0.5rem 1rem 0.5rem; gap: 0.7rem; }
-      .logo-img { height: 32px; }
-      .header-title { font-size: 1.3rem; }
       .content { padding: 1.1rem; }
       .footer-nav { gap: 1rem; }
       .profile-header { gap: 1rem; }
@@ -140,10 +142,7 @@
       <img class="nav-icon" src="assets/profile.png" alt="" aria-hidden="true" />
       <span class="nav-label">Profile</span>
     </a>
-    <a class="nav-item" href="signin.html" data-auth="signin">
-      <img class="nav-icon" src="assets/profile.png" alt="" aria-hidden="true" />
-      <span class="nav-label">Sign in</span>
-    </a>
+    <!-- Sign in removed from mobile bottom nav -->
   </nav>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth.js"></script>

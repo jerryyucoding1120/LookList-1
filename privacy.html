@@ -34,7 +34,12 @@
     .home-link { color: var(--silver); font-family: var(--font-header); font-weight: bold; font-size: 1.18rem; text-decoration: none; background: var(--button-bg); border: 2px solid transparent; border-radius: 24px; padding: 0.32em 1.25em; cursor: pointer; transition: color 0.18s, border-color 0.18s, background 0.18s; }
     .home-link:hover, .home-link:focus { color: var(--button-hover-text); background: var(--button-hover-bg); border-color: var(--button-hover-border); }
     .show-mobile { display: none; } .hide-mobile { display: inline-block; }
-    @media (max-width: 600px) { .show-mobile { display: inline-block; } .hide-mobile { display: none; } }
+    @media (max-width: 600px) { 
+      .show-mobile { display: inline-block; } 
+      .hide-mobile { display: none; } 
+      /* Hide header on mobile */
+      .header-bar { display: none !important; }
+    }
     .header-bar .nav-desktop { display: none; }
     @media (min-width: 1024px) { .header-bar .nav-desktop { display: inline-block; } }
     main { max-width: 900px; margin: 2rem auto 3rem; padding: 2rem 1.25rem; background: var(--box-bg); border-radius: 20px; border: 2px solid var(--box-border); box-shadow: 0 4px 32px rgba(44,46,48,0.15); }
@@ -58,6 +63,8 @@
       }
       .mobile-bottom-nav .nav-item:hover, .mobile-bottom-nav .nav-item:focus { color: var(--white); }
       .mobile-bottom-nav .nav-icon { width: 42px; height: 42px; object-fit: contain; border-radius: 6px; border: 1px solid var(--box-border); background: var(--button-bg); }
+      body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+      footer { padding-bottom: calc(2rem + 64px + env(safe-area-inset-bottom)); }
     }
     footer { width: 100%; background: var(--footer-bg); color: var(--silver); text-align: center; padding: 2rem 1rem 1rem 1rem; margin-top: 3rem; letter-spacing: 0.5px; font-size: 1.05rem; border-top: 1px solid var(--box-border); box-shadow: 0 -2px 16px rgba(44,46,48,0.08); }
     .footer-nav { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem; flex-wrap: wrap; }
@@ -142,10 +149,7 @@
       <img class="nav-icon" src="assets/profile.png" alt="" aria-hidden="true" />
       <span class="nav-label">Profile</span>
     </a>
-    <a class="nav-item" href="signin.html" data-auth="signin">
-      <img class="nav-icon" src="assets/profile.png" alt="" aria-hidden="true" />
-      <span class="nav-label">Sign in</span>
-    </a>
+    <!-- Sign in removed from mobile bottom nav -->
   </nav>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth.js"></script>

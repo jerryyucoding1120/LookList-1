@@ -54,7 +54,6 @@
     .home-link:hover, .home-link:focus { color: var(--button-hover-text); background: var(--button-hover-bg); border-color: var(--button-hover-border); }
     .user-greeting { color: var(--accent); font-weight: 700; margin-left: 0.4rem; }
     .show-mobile { display: none; } .hide-mobile { display: inline-block; }
-    @media (max-width: 600px) { .show-mobile { display: inline-block; } .hide-mobile { display: none; } }
 
     .header-bar .nav-desktop { display: none; }
     @media (min-width: 1024px) { .header-bar .nav-desktop { display: inline-block; } }
@@ -91,6 +90,15 @@
 
     .mobile-bottom-nav { display: none; }
     @media (max-width: 600px) {
+      /* Hide header on mobile */
+      .header-bar { display: none !important; }
+      .show-mobile { display: inline-block; } .hide-mobile { display: none; }
+
+      .auth-card { padding: 0.9rem; }
+      .row-split { grid-template-columns: 1fr; }
+      body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+      footer { padding-bottom: calc(2rem + 64px + env(safe-area-inset-bottom)); }
+
       .mobile-bottom-nav {
         position: fixed; left: 0; right: 0; bottom: 0; height: 64px;
         padding: 8px 8px calc(8px + env(safe-area-inset-bottom)) 8px;
@@ -107,16 +115,6 @@
         width: 42px; height: 42px; object-fit: contain; border-radius: 6px;
         border: 1px solid var(--box-border); background: var(--button-bg);
       }
-    }
-
-    @media (max-width: 600px) {
-      .header-bar { padding: 1rem 0.5rem; gap: 0.7rem; }
-      .logo-img { height: 32px; }
-      .header-title { font-size: 1.3rem; }
-      .auth-card { padding: 0.9rem; }
-      .row-split { grid-template-columns: 1fr; }
-      body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
-      footer { padding-bottom: calc(2rem + 64px + env(safe-area-inset-bottom)); }
     }
 
     footer { width: 100%; background: var(--footer-bg); color: var(--silver); text-align: center; padding: 2rem 1rem 1rem 1rem; margin-top: 3rem; letter-spacing: 0.5px; font-size: 1.05rem; border-top: 1px solid var(--box-border); box-shadow: 0 -2px 16px rgba(44,46,48,0.08); }
@@ -149,7 +147,6 @@
       </div>
       <div class="divider" aria-hidden="true"></div>
 
-      <!-- Sign In Panel -->
       <section id="panel-signin" class="auth-body" role="tabpanel" aria-labelledby="tab-signin">
         <div id="signin-status" aria-live="polite"></div>
         <form id="signin-form" novalidate>
@@ -173,7 +170,6 @@
         </form>
       </section>
 
-      <!-- Sign Up Panel -->
       <section id="panel-signup" class="auth-body" role="tabpanel" aria-labelledby="tab-signup" hidden>
         <div id="signup-status" aria-live="polite"></div>
         <form id="signup-form" novalidate>
@@ -247,10 +243,7 @@
       <img class="nav-icon" src="assets/profile.png" alt="" aria-hidden="true" />
       <span class="nav-label">Profile</span>
     </a>
-    <a class="nav-item" href="signin.html" data-auth="signin" aria-current="page">
-      <img class="nav-icon" src="assets/profile.png" alt="" aria-hidden="true" />
-      <span class="nav-label">Sign in</span>
-    </a>
+    <!-- Sign in removed from mobile bottom nav -->
   </nav>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
