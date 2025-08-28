@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- ... head unchanged ... -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LookList – Profile</title>
+  <meta name="description" content="Manage your LookList profile and settings." />
+  <link rel="icon" href="assets/logo1.png" type="image/png" sizes="any" />
+  <link rel="apple-touch-icon" href="assets/logo1.png" />
+  <link rel="shortcut icon" href="assets/logo1.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ... original styles unchanged ... */
+  </style>
 </head>
 <body>
   <header class="header-bar">
@@ -18,10 +28,35 @@
     <a href="signin.html" class="home-link show-mobile" data-auth="signin">Sign in</a>
   </header>
 
-  <!-- ... main content unchanged ... -->
+  <main class="content">
+    <div class="profile-header">
+      <img class="avatar-lg" src="assets/profile.png" alt="" aria-hidden="true" />
+      <div>
+        <p class="name" id="profile-name">Your Name</p>
+        <p class="muted">Manage your bookings, messages, and account settings.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Account</h3>
+      <p class="muted">Update your details, password, and notifications.</p>
+      <a href="#" class="btn" onclick="authSignOut(); return false;">Sign out</a>
+    </div>
+
+    <div class="section" style="margin-top:1rem;">
+      <h3>Payments</h3>
+      <p class="muted">Manage saved payment methods and payouts.</p>
+      <a href="#" class="btn">Connect Stripe</a>
+    </div>
+  </main>
 
   <footer>
-    <!-- ... footer unchanged ... -->
+    <nav class="footer-nav">
+      <a href="terms.html"><button class="footer-btn">Terms of Use</button></a>
+      <a href="privacy.html"><button class="footer-btn">Privacy Policy</button></a>
+      <a href="cookies.html"><button class="footer-btn">Cookie Policy</button></a>
+    </nav>
+    <div>© 2025 LookList. All rights reserved.</div>
   </footer>
 
   <nav class="mobile-bottom-nav" aria-label="Primary">

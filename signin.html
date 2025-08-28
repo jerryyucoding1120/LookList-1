@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- ... head unchanged ... -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LookList – Sign in / Sign up</title>
+  <meta name="description" content="Sign in or create an account to manage your LookList bookings, messages, and profile." />
+  <link rel="icon" href="assets/logo1.png" type="image/png" sizes="any" />
+  <link rel="apple-touch-icon" href="assets/logo1.png" />
+  <link rel="shortcut icon" href="assets/logo1.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ... original styles unchanged ... */
+  </style>
 </head>
 <body>
   <header class="header-bar">
@@ -18,10 +28,94 @@
     <a href="signin.html" class="home-link show-mobile" data-auth="signin" aria-current="page">Sign in</a>
   </header>
 
-  <!-- ... main content unchanged ... -->
+  <main class="auth-wrap">
+    <section class="auth-card" aria-labelledby="authTitle">
+      <h1 id="authTitle" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Sign in or Sign up</h1>
+      <div class="auth-header" role="tablist" aria-label="Authentication tabs">
+        <button id="tab-signin" class="tab-btn" role="tab" aria-selected="true" aria-controls="panel-signin">Sign In</button>
+        <button id="tab-signup" class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-signup">Sign Up</button>
+      </div>
+      <div class="divider" aria-hidden="true"></div>
+
+      <!-- Sign In Panel -->
+      <section id="panel-signin" class="auth-body" role="tabpanel" aria-labelledby="tab-signin">
+        <div id="signin-status" aria-live="polite"></div>
+        <form id="signin-form" novalidate>
+          <div class="form-row">
+            <label for="signin-email">Email</label>
+            <input id="signin-email" name="email" type="email" class="input" autocomplete="email" required placeholder="you@example.com" />
+            <div class="error" id="signin-email-error" hidden></div>
+          </div>
+          <div class="form-row">
+            <label for="signin-password">Password</label>
+            <input id="signin-password" name="password" type="password" class="input" autocomplete="current-password" required placeholder="Your password" />
+            <div class="error" id="signin-password-error" hidden></div>
+          </div>
+          <div class="actions">
+            <label style="display:flex;align-items:center;gap:0.5rem;">
+              <input id="remember-me" type="checkbox" /> <span class="muted">Remember me</span>
+            </label>
+            <button type="submit" class="btn">Sign In</button>
+          </div>
+          <p class="muted">Don't have an account? <a href="#" id="go-signup">Create one</a>.</p>
+        </form>
+      </section>
+
+      <!-- Sign Up Panel -->
+      <section id="panel-signup" class="auth-body" role="tabpanel" aria-labelledby="tab-signup" hidden>
+        <div id="signup-status" aria-live="polite"></div>
+        <form id="signup-form" novalidate>
+          <div class="row-split">
+            <div class="form-row">
+              <label for="signup-name">Full name</label>
+              <input id="signup-name" name="name" type="text" class="input" autocomplete="name" required placeholder="Jane Doe" />
+              <div class="error" id="signup-name-error" hidden></div>
+            </div>
+            <div class="form-row">
+              <label for="signup-email">Email</label>
+              <input id="signup-email" name="email" type="email" class="input" autocomplete="email" required placeholder="you@example.com" />
+              <div class="error" id="signup-email-error" hidden></div>
+            </div>
+          </div>
+          <div class="row-split">
+            <div class="form-row">
+              <label for="signup-password">Password</label>
+              <input id="signup-password" name="password" type="password" class="input" autocomplete="new-password" required placeholder="At least 8 characters" />
+              <div class="error" id="signup-password-error" hidden></div>
+              <div class="form-help">Use 8+ characters with a mix of letters and numbers.</div>
+            </div>
+            <div class="form-row">
+              <label for="signup-confirm">Confirm password</label>
+              <input id="signup-confirm" name="confirm" type="password" class="input" autocomplete="new-password" required placeholder="Re-enter password" />
+              <div class="error" id="signup-confirm-error" hidden></div>
+            </div>
+          </div>
+          <label style="display:flex;align-items:center;gap:0.5rem;margin-top:0.25rem;">
+            <input id="signup-terms" type="checkbox" required />
+            <span class="muted">I accept the <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.</span>
+          </label>
+          <div class="actions">
+            <span></span>
+            <button type="submit" class="btn">Create Account</button>
+          </div>
+          <p class="muted">Already have an account? <a href="#" id="go-signin">Sign in</a>.</p>
+        </form>
+      </section>
+
+      <div class="divider" aria-hidden="true"></div>
+      <p class="muted">
+        This page uses Supabase for authentication. If you don’t receive a confirmation email after sign up, check your spam folder.
+      </p>
+    </section>
+  </main>
 
   <footer>
-    <!-- ... footer unchanged ... -->
+    <nav class="footer-nav">
+      <a href="terms.html"><button class="footer-btn">Terms of Use</button></a>
+      <a href="privacy.html"><button class="footer-btn">Privacy Policy</button></a>
+      <a href="cookies.html"><button class="footer-btn">Cookie Policy</button></a>
+    </nav>
+    <div>© 2025 LookList. All rights reserved.</div>
   </footer>
 
   <nav class="mobile-bottom-nav" aria-label="Primary">
@@ -50,12 +144,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth.js"></script>
   <script>
-    // Helper: next= redirect target after auth
-    function getNextUrl() {
-      const p = new URLSearchParams(location.search);
-      return p.get('next') || 'profile.html';
-    }
-
     (async function init() {
       try {
         if (window.authInit) {
@@ -103,8 +191,8 @@
     }
     function persistentClient() { return window.authClients.spLocal; }
 
-    window.authClients.spLocal.auth.onAuthStateChange((_e, session) => { if (session) window.location.replace(getNextUrl()); });
-    window.authClients.spSession.auth.onAuthStateChange((_e, session) => { if (session) window.location.replace(getNextUrl()); });
+    window.authClients.spLocal.auth.onAuthStateChange((_e, session) => { if (session) window.location.replace('profile.html'); });
+    window.authClients.spSession.auth.onAuthStateChange((_e, session) => { if (session) window.location.replace('profile.html'); });
 
     // Sign In (Supabase)
     document.getElementById('signin-form').addEventListener('submit', async (e) => {
@@ -131,7 +219,7 @@
         const { error } = await activeClient(remember).auth.signInWithPassword({ email, password });
         if (error) throw error;
         status.innerHTML = '<span class="success">Signed in! Redirecting…</span>';
-        setTimeout(() => { window.location.replace(getNextUrl()); }, 400);
+        setTimeout(() => { window.location.replace('profile.html'); }, 400);
       } catch (err) {
         status.innerHTML = `<span class="error">${err?.message || 'Sign in failed'}</span>`;
       }
@@ -163,7 +251,7 @@
         const { error } = await persistentClient().auth.signUp({
           email,
           password,
-          options: { data: { name } }   // stores "name" in user metadata
+          options: { data: { name } }
         });
         if (error) throw error;
         status.innerHTML = '<span class="success">Check your email to confirm your account!</span>';

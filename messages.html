@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- ... head unchanged ... -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LookList – Messages</title>
+  <meta name="description" content="View and manage your LookList messages." />
+  <link rel="icon" href="assets/logo1.png" type="image/png" sizes="any" />
+  <link rel="apple-touch-icon" href="assets/logo1.png" />
+  <link rel="shortcut icon" href="assets/logo1.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ... original styles unchanged ... */
+  </style>
 </head>
 <body>
   <header class="header-bar">
@@ -18,10 +28,45 @@
     <a href="signin.html" class="home-link show-mobile" data-auth="signin">Sign in</a>
   </header>
 
-  <!-- ... main content unchanged ... -->
+  <main class="content">
+    <h1>Messages</h1>
+    <div class="note">Sign in to view and reply to your conversations.</div>
+
+    <div class="thread-list" role="list">
+      <a class="thread" href="#" role="listitem" aria-label="Chat with Glam Studio about Bridal Makeup on Aug 25">
+        <img class="avatar" src="assets/profile.png" alt="" aria-hidden="true" />
+        <div>
+          <p class="thread-title">Glam Studio</p>
+          <p class="thread-snippet">Hi! Can you share your preferred time on Saturday?</p>
+        </div>
+        <div class="thread-meta">
+          <div style="display:flex;align-items:center;gap:8px;justify-content:flex-end;">
+            <span>Aug 25</span>
+            <span class="status-dot" title="unread"></span>
+          </div>
+        </div>
+      </a>
+
+      <a class="thread" href="#" role="listitem" aria-label="Chat with Luxe Nails about Gel Manicure on Aug 21">
+        <img class="avatar" src="assets/profile.png" alt="" aria-hidden="true" />
+        <div>
+          <p class="thread-title">Luxe Nails</p>
+          <p class="thread-snippet">Your appointment is confirmed for 2:00 PM.</p>
+        </div>
+        <div class="thread-meta">
+          <span>Aug 21</span>
+        </div>
+      </a>
+    </div>
+  </main>
 
   <footer>
-    <!-- ... footer unchanged ... -->
+    <nav class="footer-nav">
+      <a href="terms.html"><button class="footer-btn">Terms of Use</button></a>
+      <a href="privacy.html"><button class="footer-btn">Privacy Policy</button></a>
+      <a href="cookies.html"><button class="footer-btn">Cookie Policy</button></a>
+    </nav>
+    <div>© 2025 LookList. All rights reserved.</div>
   </footer>
 
   <nav class="mobile-bottom-nav" aria-label="Primary">
@@ -50,7 +95,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth.js"></script>
   <script>
-    authInit().then(({ user }) => {
+    authInit({ requireAuth: true }).then(({ user }) => {
       const signInLinks = document.querySelectorAll('[data-auth="signin"]');
       if (user) {
         signInLinks.forEach(el => {
