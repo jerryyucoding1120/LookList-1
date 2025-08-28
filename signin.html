@@ -89,6 +89,7 @@
 
     .mobile-bottom-nav { display: none; }
     @media (max-width: 600px) {
+      /* Only hide header buttons (not the header itself) on mobile */
       .header-bar .home-link { display: none !important; }
       .show-mobile { display: inline-block; } .hide-mobile { display: none; }
 
@@ -124,7 +125,7 @@
 <body>
   <header class="header-bar">
     <a href="index.html"><img src="assets/logo1.png" alt="LookList Logo" class="logo-img" /></a>
-    <span class="header-title">a LookList</span>
+    <span class="header-title">Looklist</span>
     <a href="index.html" class="home-link hide-mobile">Home</a>
     <a href="services.html" class="home-link nav-desktop">Services</a>
     <a href="messages.html" class="home-link nav-desktop">Messages</a>
@@ -145,6 +146,7 @@
       </div>
       <div class="divider" aria-hidden="true"></div>
 
+      <!-- Sign In Panel -->
       <section id="panel-signin" class="auth-body" role="tabpanel" aria-labelledby="tab-signin">
         <div id="signin-status" aria-live="polite"></div>
         <form id="signin-form" novalidate>
@@ -168,6 +170,7 @@
         </form>
       </section>
 
+      <!-- Sign Up Panel -->
       <section id="panel-signup" class="auth-body" role="tabpanel" aria-labelledby="tab-signup" hidden>
         <div id="signup-status" aria-live="polite"></div>
         <form id="signup-form" novalidate>
@@ -250,6 +253,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="auth.js"></script>
   <script>
+    // Helper: next= redirect target after auth
     function getNextUrl() {
       const p = new URLSearchParams(location.search);
       return p.get('next') || 'profile.html';
@@ -278,6 +282,7 @@
       setActiveTab('signin');
     })();
 
+    // Tabs
     const tabSignin = document.getElementById('tab-signin');
     const tabSignup = document.getElementById('tab-signup');
     const panelSignin = document.getElementById('panel-signin');
@@ -295,12 +300,16 @@
     document.getElementById('go-signup')?.addEventListener('click', (e) => { e.preventDefault(); setActiveTab('signup'); });
     document.getElementById('go-signin')?.addEventListener('click', (e) => { e.preventDefault(); setActiveTab('signin'); });
 
-    function activeClient(remember) { return remember ? window.authClients.spLocal : window.authClients.spSession; }
+    // Choose client based on "Remember me"
+    function activeClient(remember) {
+      return remember ? window.authClients.spLocal : window.authClients.spSession;
+    }
     function persistentClient() { return window.authClients.spLocal; }
 
     window.authClients.spLocal.auth.onAuthStateChange((_e, session) => { if (session) window.location.replace(getNextUrl()); });
     window.authClients.spSession.auth.onAuthStateChange((_e, session) => { if (session) window.location.replace(getNextUrl()); });
 
+    // Sign In (Supabase)
     document.getElementById('signin-form').addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -331,6 +340,7 @@
       }
     });
 
+    // Sign Up (Supabase) – stores "name" in user metadata
     document.getElementById('signup-form').addEventListener('submit', async (e) => {
       e.preventDefault();
 
