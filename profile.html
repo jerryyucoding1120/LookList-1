@@ -43,8 +43,8 @@
     @media (max-width: 600px) {
       .show-mobile { display: inline-block; }
       .hide-mobile { display: none; }
-      /* Hide header on mobile */
-      .header-bar { display: none !important; }
+      /* Only hide header buttons (keep header visible) */
+      .header-bar .home-link { display: none !important; }
     }
     .header-bar .nav-desktop { display: none; }
     @media (min-width: 1024px) { .header-bar .nav-desktop { display: inline-block; } }

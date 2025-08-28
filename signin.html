@@ -89,9 +89,10 @@
     .divider { height: 1px; background: var(--box-border); margin: 0.25rem 0 0.75rem; border-radius: 1px; }
 
     .mobile-bottom-nav { display: none; }
+
     @media (max-width: 600px) {
-      /* Hide header on mobile */
-      .header-bar { display: none !important; }
+      /* Only hide header buttons (not the header itself) on mobile */
+      .header-bar .home-link { display: none !important; }
       .show-mobile { display: inline-block; } .hide-mobile { display: none; }
 
       .auth-card { padding: 0.9rem; }
@@ -147,6 +148,7 @@
       </div>
       <div class="divider" aria-hidden="true"></div>
 
+      <!-- Sign In Panel -->
       <section id="panel-signin" class="auth-body" role="tabpanel" aria-labelledby="tab-signin">
         <div id="signin-status" aria-live="polite"></div>
         <form id="signin-form" novalidate>
@@ -170,6 +172,7 @@
         </form>
       </section>
 
+      <!-- Sign Up Panel -->
       <section id="panel-signup" class="auth-body" role="tabpanel" aria-labelledby="tab-signup" hidden>
         <div id="signup-status" aria-live="polite"></div>
         <form id="signup-form" novalidate>
