@@ -1,6 +1,13 @@
-/* Shared Supabase auth for all pages (static-site friendly) */
+/* Shared Supabase auth for all pages (static-site friendly)
+   - Automatically switches "Sign in" to "Sign out" after login
+   - Fills [data-auth="user-name"] with user name/email
+   - Exposes:
+       window.authInit({ requireAuth?: boolean })
+       window.authSignOut()
+       window.authClients = { spLocal, spSession }
+*/
+
 (function () {
-  // 1) Your Supabase project config
   const SUPABASE_URL = 'https://rgzdgeczrncuxufkyuxf.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJnemRnZWN6cm5jdXh1Zmt5dXhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxOTI3MTAsImV4cCI6MjA3MTc2ODcxMH0.dYt-MxnGZZqQ-pUilyMzcqSJjvlCNSvUCYpVJ6TT7dU';
 
@@ -9,7 +16,7 @@
     return;
   }
 
-  // 2) Two clients so sessions work whether the user picked "Remember me" or not
+  // Two clients so "Remember me" can use localStorage vs sessionStorage
   const spLocal = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: localStorage }
   });
@@ -31,27 +38,33 @@
   }
 
   async function signOut() {
+    // Sign out of both storages (best effort)
     await Promise.allSettled([spLocal.auth.signOut(), spSession.auth.signOut()]);
     try { updateUI(null); } catch {}
+    // Redirect home after sign-out
     window.location.href = 'index.html';
   }
 
   function updateUI(user) {
-    // Toggle Sign in / Sign out links
+    // Toggle Sign in / Sign out buttons
     document.querySelectorAll('[data-auth="signin"]').forEach(el => {
-      el.hidden = !!user;
-      if (!user) el.onclick = null;
+      el.hidden = !!user; // hide "Sign in" when logged in
+      if (!user) {
+        el.onclick = null; // restore default navigation
+        el.setAttribute('aria-current', el.getAttribute('aria-current') || 'false');
+      }
     });
     document.querySelectorAll('[data-auth="signout"]').forEach(el => {
-      el.hidden = !user;
+      el.hidden = !user; // show "Sign out" when logged in
       if (user) {
+        el.setAttribute('href', '#');
         el.onclick = (e) => { e.preventDefault(); signOut(); };
       } else {
         el.onclick = null;
       }
     });
 
-    // Display user name (or email)
+    // Fill user name (from metadata) or email
     const name = user?.user_metadata?.name || user?.email || '';
     document.querySelectorAll('[data-auth="user-name"]').forEach(el => {
       if (name) {
@@ -63,6 +76,7 @@
       }
     });
 
+    // Body marker classes if you want to hook styles
     document.body.classList.toggle('is-auth', !!user);
     document.body.classList.toggle('is-guest', !user);
   }
@@ -72,10 +86,11 @@
     return `${pathname}${search}${hash}`;
   }
 
-  // Initialize per page
+  // Initialize auth on each page
   async function authInit(options = {}) {
     const { requireAuth = false } = options;
 
+    // Update UI in real-time on auth changes (e.g., email confirmation redirect)
     spLocal.auth.onAuthStateChange((_evt, session) => updateUI(session?.user || null));
     spSession.auth.onAuthStateChange((_evt, session) => updateUI(session?.user || null));
 
@@ -90,7 +105,7 @@
     return { user };
   }
 
-  // Expose a small API globally
+  // Expose globals
   window.authInit = authInit;
   window.getCurrentUser = getUser;
   window.authSignOut = signOut;
