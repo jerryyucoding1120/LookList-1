@@ -56,6 +56,9 @@
     .show-mobile { display: none; } .hide-mobile { display: inline-block; }
     @media (max-width: 600px) { .show-mobile { display: inline-block; } .hide-mobile { display: none; } }
 
+    .header-bar .nav-desktop { display: none; }
+    @media (min-width: 1024px) { .header-bar .nav-desktop { display: inline-block; } }
+
     .auth-wrap { display: flex; justify-content: center; align-items: flex-start; padding: 1rem; }
     .auth-card {
       width: 100%; max-width: 720px; background: var(--box-bg); border-radius: 24px; border: 2px solid var(--box-border);
@@ -92,8 +95,27 @@
     .btn:hover, .btn:focus { background: var(--button-hover-bg); color: var(--button-hover-text); border-color: var(--button-hover-border); box-shadow: 0 6px 24px rgba(44,46,48,0.22); outline: none; }
     .divider { height: 1px; background: var(--box-border); margin: 0.25rem 0 0.75rem; border-radius: 1px; }
 
-    /* Ensure mobile bottom nav never shows on this page */
-    .mobile-bottom-nav { display: none !important; }
+    .mobile-bottom-nav {
+      display: none;
+    }
+    @media (max-width: 600px) {
+      .mobile-bottom-nav {
+        position: fixed; left: 0; right: 0; bottom: 0; height: 64px;
+        padding: 8px 8px calc(8px + env(safe-area-inset-bottom)) 8px;
+        background: var(--footer-bg); border-top: 1px solid var(--box-border);
+        display: flex; justify-content: space-around; align-items: center; z-index: 1000;
+      }
+      .mobile-bottom-nav .nav-item {
+        display: flex; flex-direction: column; align-items: center; gap: 0.25rem; text-decoration: none; color: var(--silver);
+        font-size: 0.72rem; padding: 0.25rem 0.5rem; min-width: 64px;
+      }
+      .mobile-bottom-nav .nav-item:focus,
+      .mobile-bottom-nav .nav-item:hover { color: var(--white); }
+      .mobile-bottom-nav .nav-icon {
+        width: 42px; height: 42px; object-fit: contain; border-radius: 6px;
+        border: 1px solid var(--box-border); background: var(--button-bg);
+      }
+    }
 
     @media (max-width: 600px) {
       .header-bar { padding: 1rem 0.5rem; gap: 0.7rem; }
@@ -101,8 +123,8 @@
       .header-title { font-size: 1.3rem; }
       .auth-card { padding: 0.9rem; }
       .row-split { grid-template-columns: 1fr; }
-      body { padding-bottom: 0; }
-      footer { padding-bottom: 2rem; }
+      body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+      footer { padding-bottom: calc(2rem + 64px + env(safe-area-inset-bottom)); }
     }
 
     footer { width: 100%; background: var(--footer-bg); color: var(--silver); text-align: center; padding: 2rem 1rem 1rem 1rem; margin-top: 3rem; letter-spacing: 0.5px; font-size: 1.05rem; border-top: 1px solid var(--box-border); box-shadow: 0 -2px 16px rgba(44,46,48,0.08); }
@@ -118,17 +140,17 @@
 
     <a href="index.html" class="home-link hide-mobile">Home</a>
 
-    <!-- Mobile: Sign in / Sign out -->
-    <a href="signin.html" class="home-link show-mobile" data-auth="signin" aria-current="page">Sign in</a>
-    <a href="#" class="home-link show-mobile" data-auth="signout" hidden>Sign out</a>
-
+    <!-- Single Sign in/Sign Out button (mobile and desktop) MOVED NEXT TO PROFILE -->
     <a href="services.html" class="home-link nav-desktop">Services</a>
     <a href="messages.html" class="home-link nav-desktop">Messages</a>
     <a href="profile.html" class="home-link nav-desktop">Profile</a>
-
-    <!-- Desktop: Sign in / Sign out -->
     <a href="signin.html" class="home-link nav-desktop" data-auth="signin" aria-current="page">Sign in</a>
-    <a href="#" class="home-link nav-desktop" data-auth="signout" hidden>Sign out</a>
+
+    <!-- Mobile nav: place Sign in after Profile -->
+    <a href="services.html" class="home-link show-mobile">Services</a>
+    <a href="messages.html" class="home-link show-mobile">Messages</a>
+    <a href="profile.html" class="home-link show-mobile">Profile</a>
+    <a href="signin.html" class="home-link show-mobile" data-auth="signin" aria-current="page">Sign in</a>
   </header>
 
   <main class="auth-wrap">
@@ -238,7 +260,21 @@
       try {
         if (window.authInit) {
           const { user } = await window.authInit(); // updates nav
-          if (user) return window.location.replace(getNextUrl());
+          // Update "Sign in" button to "Sign Out" if logged in
+          const signInLinks = document.querySelectorAll('[data-auth="signin"]');
+          if (user) {
+            signInLinks.forEach(el => {
+              el.textContent = 'Sign Out';
+              el.onclick = (e) => { e.preventDefault(); authSignOut(); };
+              el.setAttribute('href', '#');
+            });
+          } else {
+            signInLinks.forEach(el => {
+              el.textContent = 'Sign in';
+              el.onclick = null;
+              el.setAttribute('href', 'signin.html');
+            });
+          }
         }
       } catch (e) { console.warn('Auth init warning:', e); }
       setActiveTab('signin');
@@ -268,7 +304,6 @@
     }
     function persistentClient() { return window.authClients.spLocal; }
 
-    // Redirect on auth state change (e.g., after email confirmation)
     window.authClients.spLocal.auth.onAuthStateChange((_e, session) => { if (session) window.location.replace(getNextUrl()); });
     window.authClients.spSession.auth.onAuthStateChange((_e, session) => { if (session) window.location.replace(getNextUrl()); });
 
@@ -338,5 +373,28 @@
       }
     });
   </script>
+
+  <nav class="mobile-bottom-nav" aria-label="Primary">
+    <a class="nav-item" href="index.html">
+      <img class="nav-icon" src="assets/home.png" alt="" aria-hidden="true" />
+      <span class="nav-label">Home</span>
+    </a>
+    <a class="nav-item" href="services.html">
+      <img class="nav-icon" src="assets/service.png" alt="" aria-hidden="true" />
+      <span class="nav-label">Services</span>
+    </a>
+    <a class="nav-item" href="messages.html">
+      <img class="nav-icon" src="assets/messages.png" alt="" aria-hidden="true" />
+      <span class="nav-label">Messages</span>
+    </a>
+    <a class="nav-item" href="profile.html">
+      <img class="nav-icon" src="assets/profile.png" alt="" aria-hidden="true" />
+      <span class="nav-label">Profile</span>
+    </a>
+    <a class="nav-item" href="signin.html" data-auth="signin" aria-current="page">
+      <img class="nav-icon" src="assets/profile.png" alt="" aria-hidden="true" />
+      <span class="nav-label">Sign in</span>
+    </a>
+  </nav>
 </body>
 </html>
