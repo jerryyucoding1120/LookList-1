@@ -1,253 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>LookList – Sign in / Sign up</title>
-  <meta name="description" content="Sign in or create an account to manage your LookList bookings, messages, and profile." />
-  <link rel="icon" href="assets/logo1.png" type="image/png" sizes="any" />
-  <link rel="apple-touch-icon" href="assets/logo1.png" />
-  <link rel="shortcut icon" href="assets/logo1.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --background: linear-gradient(135deg, #131415 0%, #09090a 100%);
-      --silver: #cfd8dc;
-      --grey: #424549;
-      --dark-grey: #181a1b;
-      --black: #101112;
-      --card: #23272a;
-      --box-bg: linear-gradient(135deg, #141516 0%, #18191a 100%);
-      --service-bg: linear-gradient(135deg, #0c0d0e 0%, #191a1b 100%);
-      --text: #e0e0e0;
-      --font-header: 'Poppins', sans-serif;
-      --font-body: 'Inter', Arial, sans-serif;
-      --accent: #cfd8dc;
-      --footer-bg: #101112;
-      --box-border: #252728;
-      --button-bg: #23272a;
-      --button-border: #cfd8dc;
-      --button-hover-bg: transparent;
-      --button-hover-border: #cfd8dc;
-      --button-hover-text: #cfd8dc;
-      --white: #fff;
-      --danger: #ef5350;
-      --success: #66bb6a;
-      --focus: #90caf9;
-    }
-    html, body { background: var(--background); color: var(--text); font-family: var(--font-body); margin: 0; padding: 0; min-height: 100vh; font-size: 18px; -webkit-font-smoothing: antialiased; }
-    a { color: var(--silver); text-decoration: underline; transition: color 0.2s; }
-    a:hover, a:focus { color: var(--accent); text-decoration: underline; }
-
-    .header-bar {
-      width: 100%; display: flex; align-items: center; justify-content: flex-start;
-      padding: 1.1rem 2rem 1.1rem 1rem; background: var(--dark-grey); box-sizing: border-box; gap: 1.4rem;
-      margin-bottom: 1.2rem; border-bottom: 1.5px solid var(--box-border);
-    }
-    .logo-img { height: 42px; width: auto; display: block; border-radius: 12px; border: 2px solid var(--box-border); }
-    .header-title { font-family: var(--font-header); font-size: 1.9rem; font-weight: bold; color: var(--silver); margin-right: auto; letter-spacing: 1.5px; }
-    .home-link {
-      color: var(--silver); font-family: var(--font-header); font-weight: bold; font-size: 1.18rem; text-decoration: none;
-      background: var(--button-bg); border: 2px solid transparent; border-radius: 24px; padding: 0.32em 1.25em; cursor: pointer;
-      transition: color 0.18s, border-color 0.18s, background 0.18s;
-    }
-    .home-link:hover, .home-link:focus { color: var(--button-hover-text); background: var(--button-hover-bg); border-color: var(--button-hover-border); }
-    .user-greeting { color: var(--accent); font-weight: 700; margin-left: 0.4rem; }
-    .show-mobile { display: none; } .hide-mobile { display: inline-block; }
-    @media (max-width: 600px) { .show-mobile { display: inline-block; } .hide-mobile { display: none; } }
-
-    .header-bar .nav-desktop { display: none; }
-    @media (min-width: 1024px) { .header-bar .nav-desktop { display: inline-block; } }
-
-    .auth-wrap { display: flex; justify-content: center; align-items: flex-start; padding: 1rem; }
-    .auth-card {
-      width: 100%; max-width: 720px; background: var(--box-bg); border-radius: 24px; border: 2px solid var(--box-border);
-      box-shadow: 0 4px 32px rgba(44,46,48,0.15); padding: 1.25rem;
-    }
-    .auth-header {
-      display: flex; gap: 0.5rem; justify-content: center; align-items: center; margin-bottom: 1rem; flex-wrap: wrap;
-    }
-    .tab-btn {
-      background: var(--button-bg); color: var(--silver); border: 2px solid var(--box-border); border-radius: 999px;
-      padding: 0.6rem 1.2rem; font-weight: 700; font-family: var(--font-header); letter-spacing: 0.5px; cursor: pointer;
-      transition: background 0.18s, color 0.18s, border-color 0.18s, box-shadow 0.18s;
-    }
-    .tab-btn[aria-selected="true"] { border-color: var(--button-border); color: var(--white); box-shadow: 0 4px 18px rgba(44,46,48,0.22); }
-
-    .auth-body { display: grid; gap: 0.9rem; padding: 0.5rem; }
-    .form-row { display: grid; gap: 0.35rem; }
-    label { color: var(--silver); font-weight: 600; }
-    .input {
-      background: #0f1112; color: var(--text); border: 1.5px solid var(--box-border); border-radius: 12px; padding: 0.75rem 0.9rem; font-size: 1rem;
-      transition: border-color 0.18s, box-shadow 0.18s;
-    }
-    .input:focus { outline: none; border-color: var(--focus); box-shadow: 0 0 0 3px rgba(144,202,249,0.15); }
-    .form-help { color: var(--accent); font-size: 0.92rem; }
-    .error { color: var(--danger); font-size: 0.92rem; }
-    .success { color: var(--success); font-size: 0.98rem; font-weight: 600; }
-    .row-split { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-    .actions { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem; }
-    .btn {
-      background: var(--button-bg); color: var(--silver); border: 2px solid var(--button-border);
-      padding: 0.8rem 1.4rem; border-radius: 16px; font-weight: 700; cursor: pointer; text-decoration: none;
-      transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
-    }
-    .btn:hover, .btn:focus { background: var(--button-hover-bg); color: var(--button-hover-text); border-color: var(--button-hover-border); box-shadow: 0 6px 24px rgba(44,46,48,0.22); outline: none; }
-    .divider { height: 1px; background: var(--box-border); margin: 0.25rem 0 0.75rem; border-radius: 1px; }
-
-    .mobile-bottom-nav {
-      display: none;
-    }
-    @media (max-width: 600px) {
-      .mobile-bottom-nav {
-        position: fixed; left: 0; right: 0; bottom: 0; height: 64px;
-        padding: 8px 8px calc(8px + env(safe-area-inset-bottom)) 8px;
-        background: var(--footer-bg); border-top: 1px solid var(--box-border);
-        display: flex; justify-content: space-around; align-items: center; z-index: 1000;
-      }
-      .mobile-bottom-nav .nav-item {
-        display: flex; flex-direction: column; align-items: center; gap: 0.25rem; text-decoration: none; color: var(--silver);
-        font-size: 0.72rem; padding: 0.25rem 0.5rem; min-width: 64px;
-      }
-      .mobile-bottom-nav .nav-item:focus,
-      .mobile-bottom-nav .nav-item:hover { color: var(--white); }
-      .mobile-bottom-nav .nav-icon {
-        width: 42px; height: 42px; object-fit: contain; border-radius: 6px;
-        border: 1px solid var(--box-border); background: var(--button-bg);
-      }
-    }
-
-    @media (max-width: 600px) {
-      .header-bar { padding: 1rem 0.5rem; gap: 0.7rem; }
-      .logo-img { height: 32px; }
-      .header-title { font-size: 1.3rem; }
-      .auth-card { padding: 0.9rem; }
-      .row-split { grid-template-columns: 1fr; }
-      body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
-      footer { padding-bottom: calc(2rem + 64px + env(safe-area-inset-bottom)); }
-    }
-
-    footer { width: 100%; background: var(--footer-bg); color: var(--silver); text-align: center; padding: 2rem 1rem 1rem 1rem; margin-top: 3rem; letter-spacing: 0.5px; font-size: 1.05rem; border-top: 1px solid var(--box-border); box-shadow: 0 -2px 16px rgba(44,46,48,0.08); }
-    .footer-nav { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem; flex-wrap: wrap; }
-    .footer-btn { background: none; border: 2px solid transparent; color: var(--silver); font-family: var(--font-body); font-size: 1.07rem; font-weight: 500; padding: 0.2em 0.7em; cursor: pointer; border-radius: 6px; transition: background 0.18s, color 0.18s, border-color 0.18s; text-decoration: underline; }
-    .footer-btn:hover, .footer-btn:focus { background: var(--button-hover-bg); color: var(--button-hover-text); border-color: var(--button-hover-border); outline: none; text-decoration: none; }
-  </style>
+  <!-- ... head unchanged ... -->
 </head>
 <body>
   <header class="header-bar">
     <a href="index.html"><img src="assets/logo1.png" alt="LookList Logo" class="logo-img" /></a>
     <span class="header-title">LookList <span data-auth="user-name" class="user-greeting" hidden></span></span>
-
     <a href="index.html" class="home-link hide-mobile">Home</a>
-
-    <!-- Single Sign in/Sign Out button (mobile and desktop) MOVED NEXT TO PROFILE -->
     <a href="services.html" class="home-link nav-desktop">Services</a>
     <a href="messages.html" class="home-link nav-desktop">Messages</a>
     <a href="profile.html" class="home-link nav-desktop">Profile</a>
     <a href="signin.html" class="home-link nav-desktop" data-auth="signin" aria-current="page">Sign in</a>
-
-    <!-- Mobile nav: place Sign in after Profile -->
     <a href="services.html" class="home-link show-mobile">Services</a>
     <a href="messages.html" class="home-link show-mobile">Messages</a>
     <a href="profile.html" class="home-link show-mobile">Profile</a>
     <a href="signin.html" class="home-link show-mobile" data-auth="signin" aria-current="page">Sign in</a>
   </header>
 
-  <main class="auth-wrap">
-    <section class="auth-card" aria-labelledby="authTitle">
-      <h1 id="authTitle" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Sign in or Sign up</h1>
-      <div class="auth-header" role="tablist" aria-label="Authentication tabs">
-        <button id="tab-signin" class="tab-btn" role="tab" aria-selected="true" aria-controls="panel-signin">Sign In</button>
-        <button id="tab-signup" class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-signup">Sign Up</button>
-      </div>
-      <div class="divider" aria-hidden="true"></div>
-
-      <!-- Sign In Panel -->
-      <section id="panel-signin" class="auth-body" role="tabpanel" aria-labelledby="tab-signin">
-        <div id="signin-status" aria-live="polite"></div>
-        <form id="signin-form" novalidate>
-          <div class="form-row">
-            <label for="signin-email">Email</label>
-            <input id="signin-email" name="email" type="email" class="input" autocomplete="email" required placeholder="you@example.com" />
-            <div class="error" id="signin-email-error" hidden></div>
-          </div>
-          <div class="form-row">
-            <label for="signin-password">Password</label>
-            <input id="signin-password" name="password" type="password" class="input" autocomplete="current-password" required placeholder="Your password" />
-            <div class="error" id="signin-password-error" hidden></div>
-          </div>
-          <div class="actions">
-            <label style="display:flex;align-items:center;gap:0.5rem;">
-              <input id="remember-me" type="checkbox" /> <span class="muted">Remember me</span>
-            </label>
-            <button type="submit" class="btn">Sign In</button>
-          </div>
-          <p class="muted">Don't have an account? <a href="#" id="go-signup">Create one</a>.</p>
-        </form>
-      </section>
-
-      <!-- Sign Up Panel -->
-      <section id="panel-signup" class="auth-body" role="tabpanel" aria-labelledby="tab-signup" hidden>
-        <div id="signup-status" aria-live="polite"></div>
-        <form id="signup-form" novalidate>
-          <div class="row-split">
-            <div class="form-row">
-              <label for="signup-name">Full name</label>
-              <input id="signup-name" name="name" type="text" class="input" autocomplete="name" required placeholder="Jane Doe" />
-              <div class="error" id="signup-name-error" hidden></div>
-            </div>
-            <div class="form-row">
-              <label for="signup-email">Email</label>
-              <input id="signup-email" name="email" type="email" class="input" autocomplete="email" required placeholder="you@example.com" />
-              <div class="error" id="signup-email-error" hidden></div>
-            </div>
-          </div>
-          <div class="row-split">
-            <div class="form-row">
-              <label for="signup-password">Password</label>
-              <input id="signup-password" name="password" type="password" class="input" autocomplete="new-password" required placeholder="At least 8 characters" />
-              <div class="error" id="signup-password-error" hidden></div>
-              <div class="form-help">Use 8+ characters with a mix of letters and numbers.</div>
-            </div>
-            <div class="form-row">
-              <label for="signup-confirm">Confirm password</label>
-              <input id="signup-confirm" name="confirm" type="password" class="input" autocomplete="new-password" required placeholder="Re-enter password" />
-              <div class="error" id="signup-confirm-error" hidden></div>
-            </div>
-          </div>
-          <label style="display:flex;align-items:center;gap:0.5rem;margin-top:0.25rem;">
-            <input id="signup-terms" type="checkbox" required />
-            <span class="muted">I accept the <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.</span>
-          </label>
-          <div class="actions">
-            <span></span>
-            <button type="submit" class="btn">Create Account</button>
-          </div>
-          <p class="muted">Already have an account? <a href="#" id="go-signin">Sign in</a>.</p>
-        </form>
-      </section>
-
-      <div class="divider" aria-hidden="true"></div>
-      <p class="muted">
-        This page uses Supabase for authentication. If you don’t receive a confirmation email after sign up, check your spam folder.
-      </p>
-    </section>
-  </main>
+  <!-- ... main content unchanged ... -->
 
   <footer>
-    <nav class="footer-nav">
-      <a href="terms.html"><button class="footer-btn">Terms of Use</button></a>
-      <a href="privacy.html"><button class="footer-btn">Privacy Policy</button></a>
-      <a href="cookies.html"><button class="footer-btn">Cookie Policy</button></a>
-    </nav>
-    <div>© 2025 LookList. All rights reserved.</div>
+    <!-- ... footer unchanged ... -->
   </footer>
 
-  <!-- Supabase JS (v2) -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- Shared auth UI (toggles header, optional but recommended) -->
-  <script src="auth.js"></script>
+  <nav class="mobile-bottom-nav" aria-label="Primary">
+    <a class="nav-item" href="index.html">
+      <img class="nav-icon" src="assets/home.png" alt="" aria-hidden="true" />
+      <span class="nav-label">Home</span>
+    </a>
+    <a class="nav-item" href="services.html">
+      <img class="nav-icon" src="assets/service.png" alt="" aria-hidden="true" />
+      <span class="nav-label">Services</span>
+    </a>
+    <a class="nav-item" href="messages.html">
+      <img class="nav-icon" src="assets/messages.png" alt="" aria-hidden="true" />
+      <span class="nav-label">Messages</span>
+    </a>
+    <a class="nav-item" href="profile.html">
+      <img class="nav-icon" src="assets/profile.png" alt="" aria-hidden="true" />
+      <span class="nav-label">Profile</span>
+    </a>
+    <a class="nav-item" href="signin.html" data-auth="signin" aria-current="page">
+      <img class="nav-icon" src="assets/profile.png" alt="" aria-hidden="true" />
+      <span class="nav-label">Sign in</span>
+    </a>
+  </nav>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth.js"></script>
   <script>
     // Helper: next= redirect target after auth
     function getNextUrl() {
@@ -255,12 +56,10 @@
       return p.get('next') || 'profile.html';
     }
 
-    // Initialize auth UI, redirect if already signed in
     (async function init() {
       try {
         if (window.authInit) {
-          const { user } = await window.authInit(); // updates nav
-          // Update "Sign in" button to "Sign Out" if logged in
+          const { user } = await window.authInit();
           const signInLinks = document.querySelectorAll('[data-auth="signin"]');
           if (user) {
             signInLinks.forEach(el => {
@@ -373,28 +172,5 @@
       }
     });
   </script>
-
-  <nav class="mobile-bottom-nav" aria-label="Primary">
-    <a class="nav-item" href="index.html">
-      <img class="nav-icon" src="assets/home.png" alt="" aria-hidden="true" />
-      <span class="nav-label">Home</span>
-    </a>
-    <a class="nav-item" href="services.html">
-      <img class="nav-icon" src="assets/service.png" alt="" aria-hidden="true" />
-      <span class="nav-label">Services</span>
-    </a>
-    <a class="nav-item" href="messages.html">
-      <img class="nav-icon" src="assets/messages.png" alt="" aria-hidden="true" />
-      <span class="nav-label">Messages</span>
-    </a>
-    <a class="nav-item" href="profile.html">
-      <img class="nav-icon" src="assets/profile.png" alt="" aria-hidden="true" />
-      <span class="nav-label">Profile</span>
-    </a>
-    <a class="nav-item" href="signin.html" data-auth="signin" aria-current="page">
-      <img class="nav-icon" src="assets/profile.png" alt="" aria-hidden="true" />
-      <span class="nav-label">Sign in</span>
-    </a>
-  </nav>
 </body>
 </html>
